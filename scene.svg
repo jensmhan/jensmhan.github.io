@@ -189,6 +189,10 @@
     <rect class="o" x="488" y="292" width="64" height="58" rx="18" fill="#8b93a1"/>
     <path class="ln" d="M500 300 Q506 324 500 346" stroke-width="3"/>
 
+    <!-- Overarmen til ølarmen, på baksiden av kroppen (mot sofaryggen) -->
+    <path d="M334 288 L368 226" fill="none" stroke="#1f2328" stroke-width="36" stroke-linecap="round"/>
+    <path d="M334 288 L368 226" fill="none" stroke="#f2c4a0" stroke-width="28" stroke-linecap="round"/>
+
     <!-- Hals – går fra hodet inn under singleten -->
     <path d="M268 288 L318 304" stroke="#1f2328" stroke-width="46" stroke-linecap="round"/>
     <path d="M268 288 L318 304" stroke="#f2c4a0" stroke-width="38" stroke-linecap="round"/>
@@ -234,16 +238,16 @@
     </g>
     <ellipse id="mouth-shock" cx="272" cy="297" rx="6" ry="8" fill="#1f2328" opacity="0"/>
 
-    <!-- Armen med ølen -->
-    <path d="M336 300 L358 334 L402 268" fill="none" stroke="#1f2328" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M336 300 L358 334 L402 268" fill="none" stroke="#f2c4a0" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Underarmen til ølarmen, over magen -->
+    <path d="M368 226 L404 254" fill="none" stroke="#1f2328" stroke-width="34" stroke-linecap="round"/>
+    <path d="M368 226 L404 254" fill="none" stroke="#f2c4a0" stroke-width="26" stroke-linecap="round"/>
 
     <!-- Armen som henger ned (svinger når han faller) -->
     <g id="arm">
-      <path d="M348 330 L352 390 L354 440" fill="none" stroke="#1f2328" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M348 330 L352 390 L354 440" fill="none" stroke="#f2c4a0" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="o skin" cx="355" cy="448" r="14"/>
-      <path class="ln" d="M348 454 v6 M356 456 v6" stroke-width="3"/>
+      <path d="M330 342 L336 396 L338 442" fill="none" stroke="#1f2328" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M330 342 L336 396 L338 442" fill="none" stroke="#f2c4a0" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="o skin" cx="339" cy="450" r="14"/>
+      <path class="ln" d="M332 456 v6 M340 458 v6" stroke-width="3"/>
     </g>
 
     <!-- Zzz -->

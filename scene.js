@@ -57,9 +57,9 @@
 
         // Armen slenger opp i fallet og legger seg langs gulvet etterpå
         const armA = p < T.land[0]
-          ? lerp(0, 170, easeOut(seg(p, 0.36, 0.56)))
-          : lerp(170, 86, easeInOut(seg(p, T.land[0], 0.8)));
-        el.arm.setAttribute("transform", `rotate(${armA} 348 330)`);
+          ? lerp(0, -125, easeOut(seg(p, 0.36, 0.56)))
+          : lerp(-125, -78, easeInOut(seg(p, T.land[0], 0.8)));
+        el.arm.setAttribute("transform", `rotate(${armA} 330 342)`);
 
         // Ølboksen følger hånden til han faller, så flyr den i en bue
         if (p < T.beer[0]) {
