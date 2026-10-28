@@ -86,6 +86,7 @@
         brows: $("brows"), browsAngry: $("brows-angry"), mouthAngry: $("mouth-angry"),
         pupilL: $("pupil-l"), pupilR: $("pupil-r"),
         bubble: $("bubble"), bubbleBox: $("bubble-box"), bubbleText: $("bubble-text"),
+        grop: $("pute-grop"),
       };
 
       // ---- Tid og stemning ----
@@ -182,6 +183,9 @@
           const r = lerp(-5, 450, easeOut(t));
           el.beer.setAttribute("transform", `translate(${x} ${y}) rotate(${r}) translate(${-CAN.x} ${-CAN.y})`);
         }
+
+        // Gropa i armlena retter seg ut når hodet løfter seg
+        if (el.grop) el.grop.setAttribute("opacity", (1 - seg(p, 0.15, 0.24)).toFixed(3));
 
         const pud = easeOut(seg(p, ...T.puddle));
         el.puddle.setAttribute("transform", `translate(836 556) scale(${pud}) translate(-836 -556)`);

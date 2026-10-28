@@ -30,7 +30,8 @@
     <linearGradient id="p-sokk" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#fdfcf8"/><stop offset="1" stop-color="#d9d3c6"/>
     </linearGradient>
-    <clipPath id="p-mageform"><ellipse cx="430" cy="294" rx="110" ry="60"/></clipPath>
+    <clipPath id="p-mageform"><ellipse cx="462" cy="294" rx="84" ry="60"/></clipPath>
+    <clipPath id="p-brystform"><path d="M336 254 C350 247 364 244 382 242 L444 238 L452 300 L444 357 L400 357 C372 359 348 359 334 357 C326 354 321 348 320 341 C333 330 341 300 336 254 Z"/></clipPath>
     <clipPath id="p-oye-l"><ellipse cx="257" cy="267" rx="7.6" ry="5.6"/></clipPath>
     <clipPath id="p-oye-r"><ellipse cx="286" cy="267" rx="7.6" ry="5.6"/></clipPath>
   </defs>
@@ -346,33 +347,53 @@
     <path d="M540 330 q4 10 -2 20 M545 330 q6 8 6 18" fill="none" stroke="#e9e4d8" stroke-width="2" stroke-linecap="round"/>
     <path d="M538 350 l-1 4 M551 348 l0.5 4" stroke="#1f2328" stroke-width="3.4" stroke-linecap="round"/>
 
-    <!-- Overarmen til ølarmen, bak kroppen -->
-    <path class="p" d="M320.8 280.8 C328 258 343 233 357.5 220.2 A12 12 0 0 1 378.5 231.8 C370 252 360 276 347.2 295.2 Z" fill="url(#p-hud)"/>
-    <path d="M370 234 C364 254 356 274 346 288" fill="none" stroke="#c98a68" stroke-width="5" stroke-linecap="round" opacity=".5"/>
+    <!-- Ølarmen: overarmen går ut fra den bakre skuldra, bak brystet -->
+    <path class="p" d="M336 252 C342 236 351 224 359.4 216.4 A12 12 0 0 1 380.6 227.6 C378 240 374 254 370 266 Z" fill="url(#p-hud)"/>
+    <path d="M372 232 C369 244 366 254 362 262" fill="none" stroke="#c98a68" stroke-width="5" stroke-linecap="round" opacity=".5"/>
+    <path class="pl" d="M344 238 q6 -6 14 -6" stroke-width="1.4" opacity=".4"/>
 
-    <!-- Halsen -->
-    <path d="M268 288 L318 304" stroke="#1f2328" stroke-width="46" stroke-linecap="round"/>
-    <path d="M268 288 L318 304" stroke="#e8b28f" stroke-width="40" stroke-linecap="round"/>
-    <path d="M286 306 Q302 314 318 308" fill="none" stroke="#c98a68" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+    <!-- Halsen og nakken: kort og tykk, med trapesmuskel opp mot skuldra -->
+    <path d="M296 276 C312 272 326 262 340 250 L372 262 L372 336 L330 340 C314 334 298 324 282 316 Z" fill="url(#p-hud)"/>
+    <path d="M300 300 C314 304 324 316 330 332" fill="none" stroke="#c98a68" stroke-width="7" stroke-linecap="round" opacity=".35"/>
+    <path class="pl" d="M298 276 C312 272 326 262 340 250" stroke-width="2.8"/>
+    <path class="pl" d="M284 316 C298 323 312 331 326 337" stroke-width="2.8"/>
+    <path class="pl" d="M302 290 q12 8 20 22 M318 296 q6 4 8 10" stroke-width="1.3" opacity=".4"/>
+    <path d="M303 307 q4 -3 7 1" fill="none" stroke="#c98a68" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    <!-- Kragebein og brysthår i utringningen -->
+    <path class="pl" d="M314 322 q10 -7 22 -5 M318 270 q8 4 14 2" stroke-width="1.3" opacity=".35"/>
+    <path d="M318 282 q3 -3 5 0 q2 3 5 0 M314 293 q3 -3 5 0 q2 3 5 0 M319 304 q3 -3 5 0 q2 3 5 0 M316 314 q3 -3 5 0 M326 296 q2 -2 4 0 M327 286 q2 -2 4 0 M322 272 q2 -2 4 0" fill="none" stroke="#4b3a2d" stroke-width="1.5" stroke-linecap="round" opacity=".75"/>
 
-    <!-- Skuldra i singlet, med stropp -->
-    <path class="p" d="M304 352 L304 314 Q306 282 336 276 L410 262 L410 352 Z" fill="url(#p-singlet)"/>
-    <path class="pl" d="M322 288 Q334 280 350 276" stroke-width="2"/>
-    <path class="pl" d="M350 276 Q346 296 334 304" stroke-width="1.8" opacity=".6"/>
+    <!-- Brystkassa i singlet, med dyp utringning -->
+    <path class="p" d="M336 254 C350 247 364 244 382 242 L444 238 L452 300 L444 357 L400 357 C372 359 348 359 334 357 C326 354 321 348 320 341 C333 330 341 300 336 254 Z" fill="url(#p-singlet)"/>
+    <g clip-path="url(#p-brystform)">
+      <path d="M326 236 q3 60 0 124 M333 236 q3 60 0 124 M340 236 q3 60 0 124 M347 236 q3 60 0 124 M354 236 q3 60 0 124 M361 236 q3 60 0 124 M368 236 q3 60 0 124 M375 236 q3 60 0 124 M382 236 q3 60 0 124 M389 236 q3 60 0 124 M396 236 q3 60 0 124 M403 236 q3 60 0 124 M410 236 q3 60 0 124 M417 236 q3 60 0 124 M424 236 q3 60 0 124 M431 236 q3 60 0 124 M438 236 q3 60 0 124 M445 236 q3 60 0 124" fill="none" stroke="#8c8370" stroke-width="1.2" opacity=".18"/>
+      <path d="M320 340 Q380 366 452 344 L452 362 L320 362 Z" fill="#b8ad97" opacity=".28"/>
+      <!-- Smuler og en ketchupflekk -->
+      <g fill="#e6b84a" stroke="#a37b2c" stroke-width=".8"><ellipse cx="366" cy="290" rx="2.4" ry="1.6"/><ellipse cx="380" cy="306" rx="2" ry="1.3"/><ellipse cx="358" cy="318" rx="1.8" ry="1.2"/><ellipse cx="392" cy="284" rx="1.6" ry="1.1"/></g>
+      <path d="M364 332 q5 -4 9 0 q3 4 -2 6 q-6 1 -7 -6z" fill="#c0392b" opacity=".55"/>
+    </g>
+    <!-- Kanten på utringningen, med vrangbord -->
+    <path d="M323.5 339 C336.5 328.5 343.5 300 339.5 257" fill="none" stroke="#e2dccd" stroke-width="5" stroke-linecap="round"/>
+    <path class="pl" d="M326.5 336 C339 326 346 300 342.5 261" stroke-width="1.2" opacity=".45"/>
+    <path class="pl" d="M350 298 q14 14 32 8" stroke-width="1.5" opacity=".3"/>
+    <path class="pl" d="M320 341 C333 330 341 300 336 254" stroke-width="2.8"/>
 
-    <!-- Magen, med singleten som ikke rekker helt ned -->
+    <!-- Magen, som buler ut der brystet slutter -->
     <g id="belly">
-      <ellipse class="p" cx="430" cy="294" rx="112" ry="62" fill="url(#p-mage)"/>
-      <ellipse cx="430" cy="294" rx="110.5" ry="60.5" fill="url(#p-singlet)" clip-path="url(#shirt-clip)"/>
+      <ellipse cx="462" cy="294" rx="86" ry="62" fill="url(#p-mage)"/>
+      <ellipse cx="462" cy="294" rx="84.5" ry="60.5" fill="url(#p-singlet)" clip-path="url(#shirt-clip)"/>
       <g clip-path="url(#shirt-clip)"><g clip-path="url(#p-mageform)">
-        <path d="M320 226 q4 68 0 136 M327 226 q4 68 0 136 M334 226 q4 68 0 136 M341 226 q4 68 0 136 M348 226 q4 68 0 136 M355 226 q4 68 0 136 M362 226 q4 68 0 136 M369 226 q4 68 0 136 M376 226 q4 68 0 136 M383 226 q4 68 0 136 M390 226 q4 68 0 136 M397 226 q4 68 0 136 M404 226 q4 68 0 136 M411 226 q4 68 0 136 M418 226 q4 68 0 136 M425 226 q4 68 0 136 M432 226 q4 68 0 136 M439 226 q4 68 0 136 M446 226 q4 68 0 136 M453 226 q4 68 0 136 M460 226 q4 68 0 136 M467 226 q4 68 0 136 M474 226 q4 68 0 136 M481 226 q4 68 0 136 M488 226 q4 68 0 136" fill="none" stroke="#8c8370" stroke-width="1.2" opacity=".18"/>
-        <path d="M330 330 Q400 362 488 336 L488 360 L330 360 Z" fill="#b8ad97" opacity=".25"/>
+        <path d="M378 226 q4 68 0 136 M385 226 q4 68 0 136 M392 226 q4 68 0 136 M399 226 q4 68 0 136 M406 226 q4 68 0 136 M413 226 q4 68 0 136 M420 226 q4 68 0 136 M427 226 q4 68 0 136 M434 226 q4 68 0 136 M441 226 q4 68 0 136 M448 226 q4 68 0 136 M455 226 q4 68 0 136 M462 226 q4 68 0 136 M469 226 q4 68 0 136 M476 226 q4 68 0 136 M483 226 q4 68 0 136 M490 226 q4 68 0 136" fill="none" stroke="#8c8370" stroke-width="1.2" opacity=".18"/>
+        <path d="M376 330 Q430 364 488 336 L488 360 L376 360 Z" fill="#b8ad97" opacity=".28"/>
+        <!-- Skygge der magen henger over brystet -->
+        <path d="M392 264 C384 284 384 306 394 326" fill="none" stroke="#b8ad97" stroke-width="10" stroke-linecap="round" opacity=".35"/>
       </g></g>
-      <!-- Flekker: øl og noe brunt -->
-      <path d="M376 252 q16 -11 31 -1 q10 12 -4 21 q-15 8 -27 -2 q-10 -8 0 -18z" fill="#c9a26b" opacity=".55"/>
-      <path d="M392 262 q6 -3 10 1" fill="none" stroke="#a9834e" stroke-width="1.5" opacity=".6"/>
-      <ellipse cx="421" cy="293" rx="5" ry="4" fill="#a37b4c" opacity=".5"/>
-      <circle cx="432" cy="300" r="1.8" fill="#a37b4c" opacity=".5"/>
+      <!-- Flekker: øl, noe brunt og smuler -->
+      <path d="M384 250 q16 -11 31 -1 q10 12 -4 21 q-15 8 -27 -2 q-10 -8 0 -18z" fill="#c9a26b" opacity=".55"/>
+      <path d="M400 260 q6 -3 10 1" fill="none" stroke="#a9834e" stroke-width="1.5" opacity=".6"/>
+      <ellipse cx="436" cy="293" rx="5" ry="4" fill="#a37b4c" opacity=".5"/>
+      <circle cx="447" cy="300" r="1.8" fill="#a37b4c" opacity=".5"/>
+      <g fill="#e6b84a" stroke="#a37b2c" stroke-width=".8"><ellipse cx="458" cy="262" rx="2.2" ry="1.5"/><ellipse cx="470" cy="276" rx="1.8" ry="1.2"/><ellipse cx="452" cy="318" rx="2" ry="1.3"/></g>
       <!-- Kanten av singleten, rullet litt opp -->
       <path d="M490 238 Q482 296 492 354" fill="none" stroke="#efe9dc" stroke-width="5"/>
       <path class="pl" d="M490 238 Q482 296 492 354" stroke-width="3"/>
@@ -383,12 +404,10 @@
       <path d="M522 292 l3 2 M527 299 l2.5 2.5 M520 302 l3 1.5 M529 308 l2 3 M523 312 l3 2 M531 318 l1.5 3" fill="none" stroke="#6b5444" stroke-width="1.3" stroke-linecap="round" opacity=".6"/>
       <path d="M502 252 q8 6 9 14 M508 324 q8 -2 14 -10" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".35"/>
       <path class="pl" d="M470 350 q20 -6 34 -17" stroke-width="1.4" opacity=".3"/>
-      <ellipse class="pl" cx="430" cy="294" rx="112" ry="62" stroke-width="3.2"/>
+      <!-- Omrisset: tydelig ytterkant, svak fold mot brystet -->
+      <path class="pl" d="M388 262.4 A86 62 0 1 1 388 325.6" stroke-width="3.2"/>
+      <path class="pl" d="M388 262.4 C378 282 378 306 388 325.6" stroke-width="1.8" opacity=".5"/>
     </g>
-    <!-- Halsåpningen, med litt brysthår -->
-    <path d="M304 300 Q322 292 324 314 Q322 332 304 336 Z" fill="#e8b28f"/>
-    <path d="M308 306 q3 -3 5 0 q2 3 5 0 M306 315 q3 -3 5 0 q2 3 5 0 M309 324 q3 -3 5 0" fill="none" stroke="#4b3a2d" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
-    <path class="pl" d="M304 300 Q322 292 324 314 Q322 332 304 336" stroke-width="3"/>
 
     <!-- Hodet, hviler på armlena -->
     <path class="p" d="M240 265 C230 261 225 272 228 280 C230 287 236 291 242 288 Z" fill="url(#p-hud)"/>
@@ -490,13 +509,41 @@
 
     <!-- Armen som henger ned (svinger når han faller) -->
     <g id="arm">
-      <path class="p" d="M315 344 C316 368 320 386 324 398 C326 414 328 428 330 442 L346 442 C348 428 349 412 348 396 C348 382 346 362 345 344 A15 15 0 0 0 315 344 Z" fill="url(#p-hud)"/>
-      <path d="M342 350 C344 370 344 386 343 398 C344 414 343 428 342 440" fill="none" stroke="#c98a68" stroke-width="4" stroke-linecap="round" opacity=".5"/>
-      <path class="pl" d="M326 396 q6 3 12 1" stroke-width="1.5" opacity=".5"/>
-      <path class="p" d="M329 439 C325 450 325 461 329 470 C332 476 336 476 338 470 L340 474 C343 479 348 477 348 470 C351 460 350 450 347 439 Z" fill="url(#p-hud)" stroke-width="2.6"/>
-      <path class="p" d="M329 446 C322 451 321 460 324 465 C327 468 330 465 330 460" fill="url(#p-hud)" stroke-width="2.2"/>
-      <path class="pl" d="M335 461 v9 M341.5 462 v9" stroke-width="1.6"/>
+      <path class="p" d="M315 344 C315 362 318 378 322 392 C325 404 327 420 329 440 L347 440 C349 420 350 404 349 394 C349 380 347 362 345 344 A15 15 0 0 0 315 344 Z" fill="url(#p-hud)"/>
+      <path d="M342 352 C345 370 345 386 344 398 C345 414 344 428 343 438" fill="none" stroke="#c98a68" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+      <path class="pl" d="M325 396 q6 3 13 1" stroke-width="1.5" opacity=".5"/>
+      <path class="pl" d="M322 380 q-1 6 1 10" stroke-width="1.2" opacity=".35"/>
+      <!-- Falmet tatovering: hjerte med «MOR» -->
+      <g opacity=".72">
+        <path d="M331 374 C322 368 321 360 326 358 C329 357 331 359 331 361 C331 359 333 357 336 358 C341 360 340 368 331 374 Z" fill="#c0392b" stroke="#2d3a5a" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M321 362 h20 l-2 3 l2 3 h-20 l2 -3 z" fill="#efe6d2" stroke="#2d3a5a" stroke-width="1"/>
+        <text x="331" y="367.4" text-anchor="middle" style="font: 800 5.2px system-ui, sans-serif" fill="#2d3a5a">MOR</text>
+      </g>
+      <path d="M332 404 l2 -2 M338 410 l2 -2 M330 416 l2 -2 M336 422 l2 -2 M332 428 l2 -2 M339 400 l2 -2" fill="none" stroke="#6b5444" stroke-width="1.1" stroke-linecap="round" opacity=".45"/>
+      <!-- Billig digitalklokke -->
+      <rect class="p" x="327" y="427" width="22.5" height="10" rx="3" fill="#2b2f36" stroke-width="2"/>
+      <rect class="p" x="331" y="424.5" width="14.5" height="15" rx="3" fill="#3b4252" stroke-width="2"/>
+      <rect x="333.3" y="427.6" width="10" height="8.6" rx="1" fill="#a9c2a0"/>
+      <path d="M335 429.6 h2.4 v4.6 h-2.4z M339.2 429.6 h2.4 v4.6 h-2.4z" fill="none" stroke="#2f3a2d" stroke-width=".9"/>
+      <!-- Hånda: fingrene henger slapt, med negler -->
+      <rect class="p" x="342.6" y="459" width="5" height="11" rx="2.5" fill="#edb894" stroke-width="1.8"/>
+      <ellipse cx="345.1" cy="467" rx="1.5" ry="1.8" fill="#f7dccb" stroke="#c98a68" stroke-width=".6"/>
+      <rect class="p" x="338.2" y="459" width="5" height="15" rx="2.5" fill="#edb894" stroke-width="1.8"/>
+      <ellipse cx="340.7" cy="471" rx="1.5" ry="1.8" fill="#f7dccb" stroke="#c98a68" stroke-width=".6"/>
+      <rect class="p" x="333.8" y="459" width="5" height="17" rx="2.5" fill="#edb894" stroke-width="1.8"/>
+      <ellipse cx="336.3" cy="473" rx="1.5" ry="1.8" fill="#f7dccb" stroke="#c98a68" stroke-width=".6"/>
+      <rect class="p" x="329.4" y="459" width="5" height="14" rx="2.5" fill="#edb894" stroke-width="1.8"/>
+      <ellipse cx="331.9" cy="470" rx="1.5" ry="1.8" fill="#f7dccb" stroke="#c98a68" stroke-width=".6"/>
+      <path d="M329.5 438 C327.5 446 327.5 455 329.5 462 L347.5 462 C349.5 454 349.5 446 347.5 438 Z" fill="url(#p-hud)"/>
+      <path class="pl" d="M329.5 438 C327.5 446 327.5 455 329.5 462 M347.5 438 C349.5 446 349.5 454 347.5 462" stroke-width="2.2"/>
+      <path class="pl" d="M331 461 q1.6 1.6 3.2 0 M335.4 461 q1.6 1.6 3.2 0 M339.8 461 q1.6 1.6 3.2 0 M344.2 461 q1.6 1.6 3.2 0" stroke-width="1" opacity=".55"/>
+      <path class="pl" d="M333 448 q4 -2 8 0" stroke-width="1" opacity=".35"/>
+      <path class="p" d="M330 443 C323 448 321 457 323 463 C325 467 329 466 330 461 Z" fill="#edb894" stroke-width="2"/>
     </g>
+    <!-- Skulderleddet: armen henger fra her uansett hvordan den svinger -->
+    <circle cx="330" cy="341" r="16" fill="#efbf9e"/>
+    <path class="pl" d="M315.2 347 A16 16 0 0 1 320.8 327.9" stroke-width="2.8"/>
+    <path class="pl" d="M346 351 q5 -1 9 3" stroke-width="1.6" opacity=".5"/>
 
     <!-- Zzz -->
     <g id="zzz"><g id="zzz-bob">
@@ -504,6 +551,15 @@
       <text class="zz" x="334" y="190" style="font-size:22px">z</text>
       <text class="zz" x="354" y="170" style="font-size:16px">z</text>
     </g></g>
+  </g>
+
+  <!-- Hodet synker ned i armlena. Puta buler opp rundt bakhodet -->
+  <g id="pute-grop" style="pointer-events:none">
+    <path d="M204 346 V328 C204 302 211 287 223 283 C233 280 240 285 242 293 C245 303 253 311 264 315 C274 319 286 320 296 318 V346 Z" fill="#facc15"/>
+    <path d="M226 291 C236 291 241 300 247 308 C255 315 266 319 282 321" fill="none" stroke="#eab308" stroke-width="7" stroke-linecap="round"/>
+    <path d="M213 302 q6 6 8 16 M224 304 q4 8 4 18 M242 318 q4 6 3 14 M258 324 q3 5 2 12" fill="none" stroke="#ca8a04" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+    <path d="M214 289 q5 -4 10 -4" fill="none" stroke="#fde68a" stroke-width="3" stroke-linecap="round"/>
+    <path class="o" d="M204 346 V328 C204 302 211 287 223 283 C233 280 240 285 242 293 C245 303 253 311 264 315 C274 319 286 320 296 318 V346" fill="none"/>
   </g>
 
   <!-- Ølboksen (uten merke) -->
