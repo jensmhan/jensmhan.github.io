@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Slabbedask</title>
-  <meta name="description" content="Slabbedask.">
+  <meta name="description" content="Velkommen din forbanna slabbedask! Alt du trenger å vite om å ligge på sofaen med stil.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -15,6 +15,8 @@
       --muted: #5c6370;
       --accent: #2563eb;
       --border: #e5e7eb;
+      --sofa: #facc15;
+      --sofa-dark: #eab308;
       --scene-floor: #e4d3b8;
       --scene-line: #d2bc98;
       --scene-base: #efe9de;
@@ -54,7 +56,7 @@
       line-height: 1.6;
     }
     .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 0 16px; pointer-events: none; }
-    header, footer { pointer-events: auto; } /* resten av siden slipper klikk gjennom til slabbedasken */
+    header, footer, .lapp { pointer-events: auto; } /* resten av siden slipper klikk gjennom til slabbedasken */
 
     /* Slabbedasken i bakgrunnen (tegnet i scene.svg, styrt av scene.js) */
     #scene {
@@ -63,16 +65,89 @@
       pointer-events: none;
     }
     #scene svg { display: block; width: 100%; height: 100%; overflow: visible; }
-    /* Tom plass å bla gjennom mens han faller ut av sofaen */
-    .scroll-room { height: 200vh; }
+    /* Tom plass mellom lappene, så man ser ham falle ut av sofaen */
+    .scroll-room { height: 55vh; }
 
     header { padding: 64px 0 32px; }
     h1.logo { margin: 0 0 16px; line-height: 0; }
     h1.logo img { height: 56px; width: auto; max-width: 100%; }
-    .lead { color: var(--muted); font-size: 1.15rem; margin: 0; }
+    .lead { font-size: clamp(1.6rem, 5vw, 2.3rem); font-weight: 800; line-height: 1.15; margin: 0; }
+    .under { color: var(--muted); font-size: 1.05rem; margin: 12px 0 0; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
     footer { padding: 12px 0; color: var(--muted); font-size: 0.85rem; text-align: center; }
+
+    /* Lappene med innhold */
+    .lapp {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      padding: 24px;
+    }
+    .lapp h2 { margin: 0 0 12px; font-size: 1.5rem; line-height: 1.2; }
+    .lapp p { margin: 0 0 12px; }
+    .lapp p:last-child { margin-bottom: 0; }
+    .liten { color: var(--muted); font-size: 0.9rem; }
+
+    /* Ordboka */
+    .ord { font-size: 2rem; font-weight: 800; margin: 0; }
+    .uttale { color: var(--muted); margin: 0 0 16px; }
+    .betydninger { margin: 0 0 16px; padding-left: 1.4em; }
+    .betydninger li { margin-bottom: 8px; }
+    .betydninger li::marker { font-weight: 700; }
+
+    /* Leveregler, kommer én og én */
+    .regler { list-style: none; margin: 0; padding: 0; }
+    .regler li {
+      display: flex; gap: 12px; align-items: baseline;
+      padding: 10px 0; border-top: 1px solid var(--border);
+      font-size: 1.1rem;
+      transition: opacity .5s, transform .5s;
+    }
+    .regler li:first-child { border-top: 0; }
+    .regler .nr {
+      flex: 0 0 auto; min-width: 2.2em; text-align: center;
+      background: var(--sofa); color: #1f2328;
+      border: 2px solid #1f2328; border-radius: 999px;
+      font-weight: 800; font-size: 0.85rem; padding: 0 6px;
+    }
+    .js .regler li:not(.synlig) { opacity: 0; transform: translateY(12px); }
+
+    /* Kjente slabbedasker, blar sidelengs */
+    .rad {
+      display: flex; gap: 12px; overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      margin: 0 -24px; padding: 4px 24px 12px;
+    }
+    .kjendis {
+      flex: 0 0 200px; scroll-snap-align: start;
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    }
+    .kjendis svg { display: block; width: 100%; height: 110px; background: var(--scene-floor); }
+    .kjendis div { padding: 10px 12px 12px; }
+    .kjendis b { display: block; }
+    .kjendis span { color: var(--muted); font-size: 0.9rem; line-height: 1.45; display: block; }
+
+    /* Hva folk sier */
+    blockquote { margin: 0 0 18px; padding-left: 14px; border-left: 4px solid var(--sofa); }
+    blockquote:last-child { margin-bottom: 0; }
+    blockquote p { margin: 0; font-size: 1.1rem; font-weight: 600; }
+    blockquote cite { color: var(--muted); font-size: 0.9rem; font-style: normal; }
+
+    /* Testen */
+    .test { text-align: center; }
+    .knapper { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
+    .knapp {
+      font: inherit; font-weight: 700; cursor: pointer;
+      padding: 10px 22px; border-radius: 999px;
+      border: 2px solid #1f2328; background: var(--sofa); color: #1f2328;
+      transition: transform .25s;
+    }
+    .knapp:hover { background: var(--sofa-dark); }
+    .knapp.nei { background: var(--bg); color: var(--text); border-color: var(--border); }
+    .knapp:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .svar { min-height: 1.6em; margin-top: 14px; font-weight: 600; }
 
     /* Lydknappen */
     .lyd {
@@ -88,6 +163,22 @@
     .lyd:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .lyd .paa, .lyd.on .av { display: none; }
     .lyd.on .paa { display: inline; }
+
+    /* Snakkeboble når man blar for fort */
+    .boble {
+      position: fixed; left: 50%; top: 16px; z-index: 3;
+      transform: translate(-50%, -150%);
+      max-width: calc(100vw - 96px);
+      background: #fff; color: #1f2328;
+      border: 3px solid #1f2328; border-radius: 14px;
+      padding: 8px 16px; font-weight: 800; text-align: center;
+      transition: transform .35s;
+    }
+    .boble.vis { transform: translate(-50%, 0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .regler li, .knapp, .boble { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -99,11 +190,124 @@
       <path class="paa" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     </svg>
   </button>
+  <div class="boble" role="status" aria-live="polite"></div>
+
   <div class="wrap">
     <header>
       <h1 class="logo"><img src="/logo.svg" alt="Slabbedask" width="276" height="56"></h1>
       <p class="lead">Velkommen din forbanna slabbedask!</p>
+      <p class="under">Bla nedover. Han ligger der uansett.</p>
     </header>
+
+    <div class="scroll-room" aria-hidden="true"></div>
+
+    <section class="lapp" aria-labelledby="hva">
+      <h2 id="hva">Hva er en slabbedask?</h2>
+      <p class="ord">slab·be·dask</p>
+      <p class="uttale">substantiv, hankjønn. Brukes kjærlig, stort sett.</p>
+      <ol class="betydninger">
+        <li>Sjarmerende skøyer. En du blir sur på i fire sekunder, og så ler du.</li>
+        <li>Den som tar siste skive av brødet og legger posen pent tilbake i skapet.</li>
+        <li>Gjest som sier «jeg blir ikke lenge» klokka sju, og er der til frokost.</li>
+        <li>Enhver som har svart «på vei!» fra sofaen.</li>
+      </ol>
+      <p class="liten">Se også: rakkerunge, latsabb, den kjekke fetteren. Opphav: usikkert. Det er vi også.</p>
+    </section>
+
+    <div class="scroll-room" aria-hidden="true"></div>
+
+    <section class="lapp" aria-labelledby="regler">
+      <h2 id="regler">Slabbedaskens leveregler</h2>
+      <ol class="regler">
+        <li><span class="nr">1</span> Kom for sent, men ha med chips.</li>
+        <li><span class="nr">2</span> Sofaen er et fullverdig møterom.</li>
+        <li><span class="nr">3</span> Svar aldri på en melding før den har fått modnet.</li>
+        <li><span class="nr">4</span> Vær den som sier «én til», aldri den som sier «nå må vi gå».</li>
+        <li><span class="nr">5</span> Rydd i morgen. I morgen er en fin dag til det.</li>
+        <li><span class="nr">6</span> Lån en penn. Behold den. Det er tradisjon.</li>
+        <li><span class="nr">7</span> Gulvet er bare en sofa uten puter.</li>
+      </ol>
+    </section>
+
+    <div class="scroll-room" aria-hidden="true"></div>
+
+    <section class="lapp" aria-labelledby="kjente">
+      <h2 id="kjente">Kjente slabbedasker</h2>
+      <p class="liten">Bla sidelengs. Ingen av dem har gitt samtykke, men ingen av dem har svart på meldingen heller.</p>
+      <div class="rad" tabindex="0" aria-label="Kjente slabbedasker, bla sidelengs">
+        <article class="kjendis">
+          <svg viewBox="0 0 200 110" aria-hidden="true">
+            <g stroke="#1f2328" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+              <path d="M52 86 L148 86 L140 50 L60 50 Z" fill="#cfa772"/>
+              <path d="M60 50 L70 22 L130 22 L140 50" fill="#e2c08e"/>
+              <path d="M84 70 q16 -12 34 0" fill="none" stroke="#c0392b" stroke-width="7"/>
+            </g>
+          </svg>
+          <div><b>Pizza-Per</b><span>Spiste hele familiepizzaen alene og kalte det deling med seg selv.</span></div>
+        </article>
+        <article class="kjendis">
+          <svg viewBox="0 0 200 110" aria-hidden="true">
+            <g stroke="#1f2328" stroke-width="3" stroke-linejoin="round">
+              <rect x="80" y="24" width="40" height="66" rx="6" fill="#2563eb"/>
+              <rect x="80" y="38" width="40" height="18" fill="#facc15"/>
+              <path d="M84 24 h32" stroke-width="5"/>
+            </g>
+          </svg>
+          <div><b>Onkel Trond</b><span>Har sagt «bare én til» hver lørdag siden 1994.</span></div>
+        </article>
+        <article class="kjendis">
+          <svg viewBox="0 0 200 110" aria-hidden="true">
+            <g stroke="#1f2328" stroke-width="3" stroke-linejoin="round" transform="rotate(-18 100 56)">
+              <rect x="82" y="16" width="36" height="80" rx="12" fill="#3b4252"/>
+              <circle cx="100" cy="32" r="6" fill="#e74c3c"/>
+              <circle cx="92" cy="54" r="3.5" fill="#fafaf7"/><circle cx="108" cy="54" r="3.5" fill="#fafaf7"/>
+              <circle cx="92" cy="68" r="3.5" fill="#fafaf7"/><circle cx="108" cy="68" r="3.5" fill="#fafaf7"/>
+            </g>
+          </svg>
+          <div><b>Fjernkontroll-Frida</b><span>Har ikke reist seg for å bytte kanal siden analog-TV-en ble slukket.</span></div>
+        </article>
+        <article class="kjendis">
+          <svg viewBox="0 0 200 110" aria-hidden="true">
+            <path d="M78 22 v44 q0 22 22 22 h30 q12 0 12 -12 q0 -12 -12 -12 h-18 v-42 z" fill="#f1f1ee" stroke="#1f2328" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="140" cy="76" r="6" fill="#f2c4a0" stroke="#1f2328" stroke-width="3"/>
+            <path d="M78 34 h34" stroke="#e74c3c" stroke-width="5"/>
+          </svg>
+          <div><b>Sokke-Sindre</b><span>Har én sokk i hver farge. Kaller det en stil.</span></div>
+        </article>
+        <article class="kjendis">
+          <svg viewBox="0 0 200 110" aria-hidden="true">
+            <g transform="rotate(-12 100 56)" stroke="#1f2328" stroke-width="3" stroke-linejoin="round">
+              <path d="M72 30 L128 26 L132 90 L68 94 Z" fill="#e74c3c"/>
+              <path d="M72 30 l6 -6 l6 6 l6 -6 l6 6 l6 -6 l6 6 l6 -6 l6 6 l6 -6 l2 4" fill="none"/>
+            </g>
+            <g fill="#f5c542" stroke="#1f2328" stroke-width="2"><circle cx="146" cy="90" r="4"/><circle cx="56" cy="88" r="3"/><circle cx="160" cy="80" r="2.5"/></g>
+          </svg>
+          <div><b>Smule-Siri</b><span>Finner fortsatt chips i sofaen. Fra 2019. Spiser dem.</span></div>
+        </article>
+      </div>
+    </section>
+
+    <div class="scroll-room" aria-hidden="true"></div>
+
+    <section class="lapp" aria-labelledby="folk">
+      <h2 id="folk">Hva folk sier</h2>
+      <blockquote><p>«Fem stjerner. Ville gitt seks, men han lånte den sjette.»</p><cite>Anmelder i Bergen</cite></blockquote>
+      <blockquote><p>«Han kom for å låne en drill. Det var i 2014.»</p><cite>Naboen</cite></blockquote>
+      <blockquote><p>«Jeg ba ham ta ut søpla. Nå bor det fluer der.»</p><cite>Samboer, fortsatt optimist</cite></blockquote>
+      <blockquote><p>«Jeg forstår ikke helt hva dette er, men jeg kjenner meg igjen.»</p><cite>Mamma</cite></blockquote>
+    </section>
+
+    <div class="scroll-room" aria-hidden="true"></div>
+
+    <section class="lapp test" aria-labelledby="test">
+      <h2 id="test">Er du en slabbedask?</h2>
+      <p>Testen har ett spørsmål, og du har allerede lest det.</p>
+      <div class="knapper">
+        <button class="knapp ja" type="button">Ja, åpenbart</button>
+        <button class="knapp nei" type="button">Nei</button>
+      </div>
+      <p class="svar" aria-live="polite"></p>
+    </section>
 
     <div class="scroll-room" aria-hidden="true"></div>
 
@@ -111,7 +315,59 @@
       © <span id="year"></span> Slabbedask
     </footer>
   </div>
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Levereglene dukker opp én og én mens man blar
+    (() => {
+      if (!("IntersectionObserver" in window)) return;
+      document.documentElement.classList.add("js");
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add("synlig"); io.unobserve(e.target); }
+        });
+      }, { rootMargin: "0px 0px -15% 0px" });
+      document.querySelectorAll(".regler li").forEach((li) => io.observe(li));
+    })();
+
+    // Snakkeboble hvis man blar altfor fort
+    (() => {
+      const boble = document.querySelector(".boble");
+      const replikker = ["Rolig nå! Jeg ligger jo bare her.", "Hvor skal du? Det er ingenting der nede.", "Du blar som om noen har bestilt pizza.", "Ikke så fort, jeg blir sjøsyk."];
+      let lastY = scrollY, lastT = performance.now(), sist = 0, i = 0, timer;
+      addEventListener("scroll", () => {
+        const t = performance.now(), fart = Math.abs(scrollY - lastY) / Math.max(1, t - lastT);
+        lastY = scrollY; lastT = t;
+        if (fart > 6 && t - sist > 8000) {
+          sist = t;
+          boble.textContent = replikker[i++ % replikker.length];
+          boble.classList.add("vis");
+          clearTimeout(timer);
+          timer = setTimeout(() => boble.classList.remove("vis"), 2600);
+        }
+      }, { passive: true });
+    })();
+
+    // Testen. «Nei» er ikke et ordentlig svar.
+    (() => {
+      const ja = document.querySelector(".knapp.ja"), nei = document.querySelector(".knapp.nei");
+      const svar = document.querySelector(".svar");
+      const neiSvar = ["Det sa den forrige også.", "Interessant. Det er akkurat det en slabbedask ville sagt.", "Vi skriver «ja».", "Knappen er pynt. Svaret er ja."];
+      let n = 0, unngaatt = 0;
+      ja.addEventListener("click", () => {
+        svar.textContent = "Gratulerer! Du er offisielt godkjent slabbedask. Diplomet ligger under sofaputen.";
+      });
+      nei.addEventListener("click", () => { svar.textContent = neiSvar[n++ % neiSvar.length]; });
+      nei.addEventListener("pointerenter", (e) => {
+        if (e.pointerType !== "mouse" || unngaatt >= 3) return;
+        unngaatt++;
+        const x = (Math.random() < 0.5 ? -1 : 1) * (60 + Math.random() * 80);
+        const y = (Math.random() - 0.5) * 60;
+        nei.style.transform = unngaatt < 3 ? `translate(${x}px, ${y}px) rotate(${x / 12}deg)` : "";
+        if (unngaatt === 3) svar.textContent = "Greit, du får trykke. Det endrer ingenting.";
+      });
+    })();
+  </script>
   <script src="/lyd.js" defer></script>
   <script src="/scene.js" defer></script>
 </body>
