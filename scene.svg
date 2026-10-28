@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="120 150 760 450" preserveAspectRatio="xMidYMax meet" overflow="visible">
+  <!-- Slabbedasken på sofaen. Delene med id styres av scene.js når du blar. -->
+  <defs>
+    <clipPath id="shirt-clip"><rect x="0" y="0" width="490" height="600"/></clipPath>
+  </defs>
+  <style>
+    .o { stroke: #1f2328; stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+    .ln { fill: none; stroke: #1f2328; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+    .skin { fill: #f2c4a0; }
+    .zz { font: 800 28px Poppins, system-ui, sans-serif; fill: var(--text, #1f2328); }
+    #zzz-bob { animation: bob 3s ease-in-out infinite; transform-box: fill-box; }
+    @keyframes bob { 50% { transform: translateY(-6px); } }
+  </style>
+
+  <!-- Rommet -->
+  <rect x="-5000" y="452" width="11000" height="3000" fill="var(--scene-floor, #e4d3b8)"/>
+  <rect x="-5000" y="440" width="11000" height="14" fill="var(--scene-base, #efe9de)"/>
+  <path d="M-5000 440 H6000 M-5000 454 H6000" stroke="var(--scene-line, #d2bc98)" stroke-width="2"/>
+  <path d="M-5000 482 H6000 M-5000 522 H6000 M-5000 580 H6000" stroke="var(--scene-line, #d2bc98)" stroke-width="2"/>
+  <ellipse cx="500" cy="538" rx="390" ry="44" fill="var(--scene-rug, #dde2ea)"/>
+
+  <!-- Rot på gulvet -->
+  <g id="clutter">
+    <g transform="rotate(-6 790 484)">
+      <path class="o" d="M726 488 L852 488 L852 500 L726 500 Z" fill="#c49a66"/>
+      <path class="o" d="M744 466 L834 466 L852 488 L726 488 Z" fill="#dcb987"/>
+      <ellipse cx="808" cy="476" rx="9" ry="4" fill="#b98a4e" opacity=".6"/>
+      <path d="M752 477 q14 -6 26 0" stroke="#b98f5c" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(78 170 552)">
+      <rect class="o" x="154" y="526" width="32" height="52" rx="6" fill="#c9cdd3"/>
+      <rect x="156" y="540" width="28" height="22" fill="#e0a526"/>
+    </g>
+    <g transform="rotate(-20 214 520)">
+      <path class="o" d="M200 498 L230 498 L226 520 L232 542 L198 542 L204 520 Z" fill="#c9cdd3"/>
+      <rect x="203" y="510" width="25" height="16" fill="#e0a526"/>
+    </g>
+  </g>
+
+  <!-- Sofaen -->
+  <ellipse cx="500" cy="456" rx="305" ry="9" fill="#000" opacity=".12"/>
+  <rect class="o" x="252" y="426" width="16" height="30" rx="4" fill="#6b4f2a"/>
+  <rect class="o" x="732" y="426" width="16" height="30" rx="4" fill="#6b4f2a"/>
+  <rect class="o" x="252" y="214" width="496" height="160" rx="42" fill="#facc15"/>
+  <rect class="o" x="290" y="234" width="206" height="122" rx="30" fill="#fcd94d"/>
+  <rect class="o" x="504" y="234" width="206" height="122" rx="30" fill="#fcd94d"/>
+  <rect class="o" x="236" y="372" width="528" height="62" rx="18" fill="#eab308"/>
+  <rect class="o" x="282" y="338" width="218" height="46" rx="16" fill="#facc15"/>
+  <rect class="o" x="500" y="338" width="218" height="46" rx="16" fill="#facc15"/>
+  <rect class="o" x="204" y="290" width="92" height="146" rx="34" fill="#facc15"/>
+  <rect class="o" x="704" y="290" width="92" height="146" rx="34" fill="#facc15"/>
+
+  <!-- Ølpytt (vokser når boksen lander) -->
+  <ellipse id="puddle" cx="836" cy="556" rx="58" ry="10" fill="#e8b23a" opacity=".85" transform="scale(0)"/>
+
+  <!-- Slabbedasken -->
+  <g id="person">
+    <!-- Bena (joggebukse) -->
+    <path d="M512 314 L622 296 L768 262" fill="none" stroke="#1f2328" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M512 314 L622 296 L768 262" fill="none" stroke="#7d8696" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M520 326 L630 312 L758 280" fill="none" stroke="#1f2328" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M520 326 L630 312 L758 280" fill="none" stroke="#8b93a1" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Sokker, med stortåa ute -->
+    <path d="M770 262 L790 222" stroke="#1f2328" stroke-width="34" stroke-linecap="round"/>
+    <path d="M770 262 L790 222" stroke="#f1f1ee" stroke-width="26" stroke-linecap="round"/>
+    <circle class="o skin" cx="795" cy="211" r="7"/>
+    <path d="M760 280 L781 241" stroke="#1f2328" stroke-width="34" stroke-linecap="round"/>
+    <path d="M760 280 L781 241" stroke="#ffffff" stroke-width="26" stroke-linecap="round"/>
+
+    <!-- Bukselinning -->
+    <rect class="o" x="488" y="292" width="64" height="58" rx="18" fill="#8b93a1"/>
+    <path class="ln" d="M500 300 Q506 324 500 346" stroke-width="3"/>
+
+    <!-- Overkropp: brystet i singlet -->
+    <path class="o" d="M300 350 L300 302 Q302 280 326 276 L410 262 L410 350 Z" fill="#f5f2ea"/>
+    <!-- Magen -->
+    <ellipse class="o skin" cx="430" cy="294" rx="112" ry="62"/>
+    <ellipse cx="430" cy="294" rx="110" ry="60" fill="#f5f2ea" clip-path="url(#shirt-clip)"/>
+    <ellipse class="ln" cx="430" cy="294" rx="112" ry="62"/>
+    <path class="ln" d="M490 238 Q482 296 492 354"/>
+    <path class="ln" d="M512 276 q5 7 10 0" stroke-width="3"/>
+    <path d="M378 252 q16 -10 30 0 q10 12 -4 20 q-14 8 -26 -2 q-10 -8 0 -18z" fill="#c9a26b" opacity=".75"/>
+    <circle cx="420" cy="292" r="5" fill="#c9a26b" opacity=".6"/>
+
+    <!-- Hodet -->
+    <circle class="o skin" cx="296" cy="270" r="9"/>
+    <circle class="o skin" cx="256" cy="268" r="40"/>
+    <path class="ln" d="M226 246 q4 -20 20 -14 q6 -14 20 -5 q10 -9 18 5" stroke-width="5"/>
+    <path class="ln" d="M232 254 q12 -8 20 -4 M262 250 q10 -6 20 2" stroke-width="3.5"/>
+    <g fill="#1f2328" opacity=".35">
+      <circle cx="236" cy="292" r="1.8"/><circle cx="244" cy="298" r="1.8"/><circle cx="254" cy="301" r="1.8"/>
+      <circle cx="264" cy="300" r="1.8"/><circle cx="273" cy="296" r="1.8"/><circle cx="280" cy="289" r="1.8"/>
+      <circle cx="231" cy="284" r="1.8"/><circle cx="248" cy="306" r="1.8"/><circle cx="260" cy="307" r="1.8"/>
+    </g>
+    <path class="ln" d="M236 308 q20 12 40 0" stroke-width="3.5"/>
+    <g id="eyes-sleepy">
+      <path class="ln" d="M233 264 q8 -3 16 0 M261 264 q8 -3 16 0" stroke-width="3.5"/>
+      <path d="M236 265 a5 3.5 0 0 0 10 0z M264 265 a5 3.5 0 0 0 10 0z" fill="#1f2328"/>
+    </g>
+    <g id="eyes-shock" opacity="0">
+      <circle class="o" cx="241" cy="264" r="8" fill="#fff" stroke-width="3"/>
+      <circle class="o" cx="270" cy="264" r="8" fill="#fff" stroke-width="3"/>
+      <circle cx="241" cy="265" r="3" fill="#1f2328"/><circle cx="270" cy="265" r="3" fill="#1f2328"/>
+    </g>
+    <circle class="o" cx="256" cy="279" r="7" fill="#e8907a" stroke-width="3"/>
+    <g id="mouth-sleepy">
+      <path class="ln" d="M246 292 q10 7 20 -1" stroke-width="3.5"/>
+      <path d="M263 294 q2 8 -1 10 q-4 -2 -2 -9z" fill="#bfe3f5" stroke="#1f2328" stroke-width="1.5"/>
+    </g>
+    <ellipse id="mouth-shock" cx="256" cy="295" rx="6" ry="8" fill="#1f2328" opacity="0"/>
+
+    <!-- Armen med ølen -->
+    <path d="M318 300 L352 334 L402 268" fill="none" stroke="#1f2328" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M318 300 L352 334 L402 268" fill="none" stroke="#f2c4a0" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="o" d="M300 290 Q320 286 330 300 L316 318 Q300 312 300 300z" fill="#f5f2ea" stroke-width="3"/>
+
+    <!-- Armen som henger ned (svinger når han faller) -->
+    <g id="arm">
+      <path d="M308 322 L316 386 L320 438" fill="none" stroke="#1f2328" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M308 322 L316 386 L320 438" fill="none" stroke="#f2c4a0" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="o skin" cx="321" cy="446" r="14"/>
+      <path class="ln" d="M314 452 v6 M322 454 v6" stroke-width="3"/>
+    </g>
+
+    <!-- Zzz -->
+    <g id="zzz"><g id="zzz-bob">
+      <text class="zz" x="296" y="210">z</text>
+      <text class="zz" x="320" y="186" style="font-size:22px">z</text>
+      <text class="zz" x="340" y="166" style="font-size:16px">z</text>
+    </g></g>
+  </g>
+
+  <!-- Ølboksen (uten merke) -->
+  <g id="beer">
+    <rect class="o" x="396" y="198" width="34" height="60" rx="6" fill="#c9cdd3"/>
+    <rect x="398" y="214" width="30" height="28" fill="#e0a526"/>
+    <path d="M404 222 h18 M404 232 h12" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+    <ellipse class="o" cx="413" cy="200" rx="15" ry="4" fill="#e3e6ea" stroke-width="3"/>
+  </g>
+
+  <!-- Fingrene rundt boksen -->
+  <g id="grip">
+    <rect class="o skin" x="392" y="238" width="40" height="26" rx="12"/>
+    <path class="ln" d="M405 242 v12 M418 242 v12" stroke-width="3"/>
+  </g>
+
+  <!-- DUNK! -->
+  <g id="dunk" opacity="0">
+    <text x="660" y="420" text-anchor="middle" style="font: 900 46px Poppins, system-ui, sans-serif; paint-order: stroke; stroke: #1f2328; stroke-width: 8px; stroke-linejoin: round;" fill="#facc15">DUNK!</text>
+  </g>
+</svg>
