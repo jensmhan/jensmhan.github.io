@@ -33,6 +33,18 @@
         --scene-rug: #1a1f28;
       }
     }
+    /* Om natta er rommet mørkt uansett */
+    :root[data-tid="natt"] {
+      --bg: #0b0e14;
+      --text: #e6e8eb;
+      --muted: #9aa1ab;
+      --accent: #60a5fa;
+      --border: #262a33;
+      --scene-floor: #1a1714;
+      --scene-line: #26211c;
+      --scene-base: #151820;
+      --scene-rug: #171c25;
+    }
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -41,7 +53,8 @@
       color: var(--text);
       line-height: 1.6;
     }
-    .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 0 16px; }
+    .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 0 16px; pointer-events: none; }
+    header, footer { pointer-events: auto; } /* resten av siden slipper klikk gjennom til slabbedasken */
 
     /* Slabbedasken i bakgrunnen (tegnet i scene.svg, styrt av scene.js) */
     #scene {
@@ -60,10 +73,32 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
     footer { padding: 12px 0; color: var(--muted); font-size: 0.85rem; text-align: center; }
+
+    /* Lydknappen */
+    .lyd {
+      position: fixed; top: 16px; right: 16px; z-index: 2;
+      width: 44px; height: 44px; border-radius: 50%;
+      display: grid; place-items: center; padding: 0;
+      background: var(--bg); color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+    }
+    .lyd:hover { border-color: var(--muted); }
+    .lyd:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .lyd .paa, .lyd.on .av { display: none; }
+    .lyd.on .paa { display: inline; }
   </style>
 </head>
 <body>
   <div id="scene" aria-hidden="true"></div>
+  <button id="lyd" class="lyd" type="button" aria-pressed="false" aria-label="Slå på lyd" title="Lyd">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M3 9h4l5-4v14l-5-4H3z" fill="currentColor"/>
+      <path class="av" d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path class="paa" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
   <div class="wrap">
     <header>
       <h1 class="logo"><img src="/logo.svg" alt="Slabbedask" width="276" height="56"></h1>
@@ -77,6 +112,7 @@
     </footer>
   </div>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script src="/lyd.js" defer></script>
   <script src="/scene.js" defer></script>
 </body>
 </html>
