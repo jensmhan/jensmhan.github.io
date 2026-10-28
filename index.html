@@ -176,6 +176,75 @@
     }
     .boble.vis { transform: translate(-50%, 0); }
 
+    /* Påskeegg */
+    header, .lapp { position: relative; }
+    .gjemt-chips {
+      position: absolute; width: 30px; height: 30px; padding: 0; border: 0; background: none;
+      cursor: pointer; transform: rotate(var(--r, 20deg)); opacity: .85; z-index: 1;
+    }
+    .gjemt-chips:hover { opacity: 1; transform: rotate(var(--r, 20deg)) scale(1.15); }
+    .gjemt-chips:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 50%; }
+    .gjemt-chips:empty { display: none; }
+    .gjemt-chips svg { display: block; width: 100%; height: 100%; }
+    .gjemt-chips.spist { animation: spist .4s ease-in forwards; pointer-events: none; }
+    @keyframes spist { to { transform: scale(1.8) rotate(200deg); opacity: 0; } }
+    footer .gjemt-chips { position: static; display: inline-block; vertical-align: middle; width: 20px; height: 20px; }
+
+    h1.logo img { cursor: pointer; }
+    h1.logo img.dett { animation: dett 2.4s ease-in both; }
+    @keyframes dett {
+      30% { transform: translateY(50vh) rotate(110deg); animation-timing-function: ease-out; }
+      36% { transform: translateY(46vh) rotate(104deg); }
+      42%, 80% { transform: translateY(50vh) rotate(108deg); opacity: 1; }
+      90% { opacity: 0; transform: translateY(50vh) rotate(108deg); }
+      91% { transform: none; opacity: 0; }
+      100% { transform: none; opacity: 1; }
+    }
+    .lead { cursor: pointer; user-select: none; }
+
+    .uttal {
+      vertical-align: middle; margin-left: 6px; width: 34px; height: 34px; padding: 0;
+      border-radius: 50%; border: 2px solid #1f2328; background: var(--sofa); color: #1f2328; cursor: pointer;
+    }
+    .uttal svg { display: block; margin: auto; }
+    .uttal:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .regler li.ny { animation: ny-regel .6s ease-out both; }
+    @keyframes ny-regel { from { opacity: 0; transform: translateX(-24px) rotate(-3deg); } }
+    .regler li.ny .nr { background: #e74c3c; color: #fff; }
+
+    .smaa-knapper { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+    .smaa-knapper .knapp { font-size: .95rem; padding: 8px 16px; }
+    .lapp.rotete { transition: transform .5s; }
+    .tyngde { transition: transform .9s cubic-bezier(.55, 0, 1, .45); }
+    .tyngde.tilbake { transition: transform .7s cubic-bezier(.2, .8, .3, 1.2); }
+
+    .sover {
+      position: fixed; inset: 0; z-index: 8; display: grid; place-items: center; text-align: center;
+      background: rgba(11, 14, 20, .88); color: #e6e8eb; font-weight: 900; font-size: clamp(3rem, 14vw, 8rem);
+      cursor: pointer;
+    }
+    .sover span { animation: bob 3s ease-in-out infinite; display: inline-block; }
+    .sover small { display: block; font-size: 1rem; font-weight: 600; color: #9aa1ab; }
+    @keyframes bob { 50% { transform: translateY(-12px); } }
+
+    .diplom-skjema { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+    .diplom-skjema input {
+      flex: 1 1 200px; font: inherit; padding: 8px 12px; border-radius: 10px;
+      border: 2px solid var(--border); background: var(--bg); color: var(--text);
+    }
+    .diplom-skjema input:focus { outline: 2px solid var(--accent); }
+    .diplom-svg { width: 100%; height: auto; display: block; border-radius: 8px; }
+    .diplom-print { display: none; }
+    @media print {
+      html.skriv-diplom body > :not(.diplom-print) { display: none !important; }
+      html.skriv-diplom .diplom-print { display: block; }
+      html.skriv-diplom .diplom-print svg { width: 100%; height: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tyngde, .tyngde.tilbake { transition-duration: .01s; }
+      h1.logo img.dett, .regler li.ny, .gjemt-chips.spist, .sover span { animation-duration: .01s; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .regler li, .knapp, .boble { transition: none; }
     }
@@ -197,13 +266,14 @@
       <h1 class="logo"><img src="/logo.svg" alt="Slabbedask" width="276" height="56"></h1>
       <p class="lead">Velkommen din forbanna slabbedask!</p>
       <p class="under">Bla nedover. Han ligger der uansett.</p>
+      <button class="gjemt-chips" data-nr="1" type="button" aria-label="Et chips" style="right: 4px; bottom: 6px; --r: -25deg"></button>
     </header>
 
     <div class="scroll-room" aria-hidden="true"></div>
 
     <section class="lapp" aria-labelledby="hva">
       <h2 id="hva">Hva er en slabbedask?</h2>
-      <p class="ord">slab·be·dask</p>
+      <p class="ord">slab·be·dask<button class="uttal" type="button" aria-label="Hør hvordan det uttales" title="Hør uttalen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></p>
       <p class="uttale">substantiv, hankjønn. Brukes kjærlig, stort sett.</p>
       <ol class="betydninger">
         <li>Sjarmerende skøyer. En du blir sur på i fire sekunder, og så ler du.</li>
@@ -212,6 +282,7 @@
         <li>Enhver som har svart «på vei!» fra sofaen.</li>
       </ol>
       <p class="liten">Se også: rakkerunge, latsabb, den kjekke fetteren. Opphav: usikkert. Det er vi også.</p>
+      <button class="gjemt-chips" data-nr="2" type="button" aria-label="Et chips" style="right: 14px; bottom: -12px; --r: 140deg"></button>
     </section>
 
     <div class="scroll-room" aria-hidden="true"></div>
@@ -284,6 +355,19 @@
           </svg>
           <div><b>Smule-Siri</b><span>Finner fortsatt chips i sofaen. Fra 2019. Spiser dem.</span></div>
         </article>
+        <article class="kjendis" style="position: relative">
+          <svg viewBox="0 0 200 110" aria-hidden="true">
+            <g stroke="#1f2328" stroke-width="3" stroke-linejoin="round">
+              <rect x="52" y="44" width="96" height="34" rx="10" fill="#facc15"/>
+              <rect x="40" y="58" width="22" height="34" rx="8" fill="#facc15"/>
+              <rect x="138" y="58" width="22" height="34" rx="8" fill="#facc15"/>
+              <rect x="56" y="72" width="88" height="20" rx="5" fill="#eab308"/>
+            </g>
+            <text x="100" y="40" text-anchor="middle" style="font: 900 34px system-ui, sans-serif; fill: #1f2328">?</text>
+          </svg>
+          <div><b>Deg</b><span>Har lest helt hit i stedet for å gjøre noe nyttig. Velkommen i klubben.</span></div>
+          <button class="gjemt-chips" data-nr="4" type="button" aria-label="Et chips" style="right: 8px; top: 8px; --r: 70deg"></button>
+        </article>
       </div>
     </section>
 
@@ -291,10 +375,14 @@
 
     <section class="lapp" aria-labelledby="folk">
       <h2 id="folk">Hva folk sier</h2>
+      <button class="gjemt-chips" data-nr="3" type="button" aria-label="Et chips" style="right: -10px; top: -12px; --r: 10deg"></button>
+      <div class="sitater">
       <blockquote><p>«Fem stjerner. Ville gitt seks, men han lånte den sjette.»</p><cite>Anmelder i Bergen</cite></blockquote>
       <blockquote><p>«Han kom for å låne en drill. Det var i 2014.»</p><cite>Naboen</cite></blockquote>
       <blockquote><p>«Jeg ba ham ta ut søpla. Nå bor det fluer der.»</p><cite>Samboer, fortsatt optimist</cite></blockquote>
       <blockquote><p>«Jeg forstår ikke helt hva dette er, men jeg kjenner meg igjen.»</p><cite>Mamma</cite></blockquote>
+      </div>
+      <div class="smaa-knapper"><button class="knapp nei flere" type="button">Flere sitater</button></div>
     </section>
 
     <div class="scroll-room" aria-hidden="true"></div>
@@ -307,12 +395,13 @@
         <button class="knapp nei" type="button">Nei</button>
       </div>
       <p class="svar" aria-live="polite"></p>
+      <button class="knapp diplom-knapp" type="button" hidden>Hent diplomet</button>
     </section>
 
     <div class="scroll-room" aria-hidden="true"></div>
 
     <footer>
-      © <span id="year"></span> Slabbedask
+      © <span id="year"></span> Slabbedask <button class="gjemt-chips" data-nr="5" type="button" aria-label="Et chips" style="--r: -40deg"></button> · <a href="/bakside.html" class="snu">Snu sofaen ↻</a>
     </footer>
   </div>
   <script>
@@ -356,6 +445,7 @@
       let n = 0, unngaatt = 0;
       ja.addEventListener("click", () => {
         svar.textContent = "Gratulerer! Du er offisielt godkjent slabbedask. Diplomet ligger under sofaputen.";
+        document.querySelector(".diplom-knapp").hidden = false;
       });
       nei.addEventListener("click", () => { svar.textContent = neiSvar[n++ % neiSvar.length]; });
       nei.addEventListener("pointerenter", (e) => {
@@ -370,5 +460,7 @@
   </script>
   <script src="/lyd.js" defer></script>
   <script src="/scene.js" defer></script>
+  <script src="/merker.js" defer></script>
+  <script src="/moro.js" defer></script>
 </body>
 </html>

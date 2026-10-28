@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Under sofaen – Slabbedask</title>
+  <meta name="description" content="Baksiden av slabbedask.no. Her havner alt som forsvinner: mynter, sokker, fjernkontrollen og deg.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    /* Under sofaen er det mørkt uansett */
+    :root {
+      --bg: #26211c;
+      --kort: #302a24;
+      --text: #f1ebe2;
+      --muted: #b5aa9a;
+      --accent: #facc15;
+      --border: #4a4239;
+      --sofa: #facc15;
+      --sofa-dark: #eab308;
+      --scene-floor: #1e1a16;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 30%, rgba(255,255,255,.05) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 60%, rgba(255,255,255,.04) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,.05) 0 1px, transparent 2px);
+      background-size: 140px 140px, 90px 90px, 60px 60px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+    a { color: var(--accent); }
+
+    /* Sofaen sett nedenfra */
+    .underside { display: block; width: 100%; height: auto; }
+    header { text-align: center; padding: 8px 0 24px; position: relative; }
+    header h1 { margin: 0; font-size: clamp(2rem, 8vw, 3.2rem); line-height: 1.1; font-weight: 900; }
+    header p { margin: 8px 0 0; color: var(--muted); }
+    .snu-tilbake {
+      display: inline-block; margin-top: 16px; font-weight: 700; text-decoration: none;
+      padding: 8px 18px; border-radius: 999px; border: 2px solid #1f2328; background: var(--sofa); color: #1f2328;
+    }
+    .snu-tilbake:hover { background: var(--sofa-dark); }
+
+    .lapp {
+      position: relative;
+      background: var(--kort);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .35);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .lapp h2 { margin: 0 0 6px; font-size: 1.5rem; line-height: 1.2; }
+    .lapp > p { margin: 0 0 12px; }
+    .liten { color: var(--muted); font-size: .9rem; }
+
+    .knapp {
+      font: inherit; font-weight: 700; cursor: pointer;
+      padding: 10px 22px; border-radius: 999px;
+      border: 2px solid #1f2328; background: var(--sofa); color: #1f2328;
+    }
+    .knapp:hover { background: var(--sofa-dark); }
+    .knapp.nei { background: var(--kort); color: var(--text); border-color: var(--border); }
+    .knapp:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .knapper { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+    /* Sofaputene */
+    .puter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 40px 0 8px; }
+    .pute { position: relative; padding: 0; border: 0; background: none; cursor: pointer; }
+    .pute svg { display: block; width: 100%; height: auto; transition: transform .35s cubic-bezier(.2,.9,.3,1.3); transform-origin: 20% 100%; }
+    .pute.oppe svg { transform: translateY(-34px) rotate(-10deg); }
+    .pute .fant {
+      position: absolute; left: 50%; bottom: 30%; transform: translate(-50%, 0) scale(.6); opacity: 0;
+      background: #fff; color: #1f2328; border: 2px solid #1f2328; border-radius: 10px;
+      padding: 2px 8px; font-weight: 800; font-size: .85rem; white-space: nowrap; pointer-events: none;
+      transition: transform .3s, opacity .3s;
+    }
+    .pute.oppe .fant { transform: translate(-50%, -64px) scale(1); opacity: 1; }
+    .funn { min-height: 3.2em; font-weight: 600; margin: 8px 0; }
+    .tall { display: flex; gap: 16px; flex-wrap: wrap; font-weight: 800; }
+    .tall span { background: var(--bg); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; }
+    .samling { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+    .samling li { font-size: .85rem; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+    .samling li.har { background: var(--sofa); color: #1f2328; border-color: #1f2328; font-weight: 700; }
+
+    /* Spillet */
+    .spill { position: relative; margin-top: 12px; border-radius: 12px; overflow: hidden; border: 2px solid #1f2328; }
+    .spill canvas { display: block; width: 100%; height: 380px; touch-action: none; background: var(--scene-floor); }
+    .spill .over {
+      position: absolute; inset: 0; display: grid; place-items: center; text-align: center;
+      background: rgba(20, 17, 14, .82); padding: 16px;
+    }
+    .spill .over[hidden] { display: none; }
+    .spill .over b { display: block; font-size: 1.6rem; }
+    .regler-spill { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .9rem; color: var(--muted); margin: 0; padding: 0; list-style: none; }
+
+    /* Unnskyldninger og horoskop */
+    .sitat {
+      font-size: 1.15rem; font-weight: 700; margin: 12px 0 0; padding: 14px 16px;
+      background: var(--bg); border-left: 4px solid var(--sofa); border-radius: 0 12px 12px 0; min-height: 3.5em;
+    }
+    select {
+      font: inherit; padding: 8px 12px; border-radius: 10px; border: 2px solid var(--border);
+      background: var(--bg); color: var(--text);
+    }
+    .horoskop dl { margin: 12px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; }
+    .horoskop dt { color: var(--muted); }
+    .horoskop dd { margin: 0; font-weight: 600; }
+
+    /* Kundeservice */
+    .chat { display: flex; flex-direction: column; gap: 8px; height: 280px; overflow-y: auto; padding: 12px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px; margin-top: 12px; }
+    .chat p { margin: 0; max-width: 80%; padding: 8px 12px; border-radius: 14px; }
+    .chat .bot { background: var(--kort); border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .chat .meg { background: var(--sofa); color: #1f2328; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
+    .chat .skriver { color: var(--muted); font-style: italic; background: none; padding-left: 4px; }
+    .send { display: flex; gap: 8px; margin-top: 8px; }
+    .send input { flex: 1; min-width: 0; font: inherit; padding: 10px 14px; border-radius: 999px;
+      border: 2px solid var(--border); background: var(--bg); color: var(--text); }
+
+    /* Støvdotten Bjarne */
+    .stovdott {
+      position: absolute; width: 54px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; z-index: 1;
+      transition: left .5s, top .5s, right .5s, bottom .5s;
+    }
+    .stovdott svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .stovdott .kropp { animation: pust 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+    .stovdott.flykter .kropp { animation: flykt .5s ease-in-out; }
+    @keyframes pust { 50% { transform: scale(1.06, .94); } }
+    @keyframes flykt { 30% { transform: scale(.6, 1.3) translateY(-10px); } }
+
+    footer { padding: 12px 0 40px; color: var(--muted); font-size: .85rem; text-align: center; }
+
+    /* Lydknappen (samme som forsiden) */
+    .lyd {
+      position: fixed; top: 16px; right: 16px; z-index: 2;
+      width: 44px; height: 44px; border-radius: 50%;
+      display: grid; place-items: center; padding: 0;
+      background: var(--bg); color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+      cursor: pointer;
+    }
+    .lyd .paa, .lyd.on .av { display: none; }
+    .lyd.on .paa { display: inline; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pute svg, .pute .fant, .stovdott { transition: none; }
+      .stovdott .kropp { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <button id="lyd" class="lyd" type="button" aria-pressed="false" aria-label="Slå på lyd" title="Lyd">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M3 9h4l5-4v14l-5-4H3z" fill="currentColor"/>
+      <path class="av" d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path class="paa" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <!-- Sofaen sett nedenfra: setet øverst, beina ned -->
+  <svg class="underside" viewBox="0 0 800 150" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+    <g stroke="#1f2328" stroke-width="5" stroke-linejoin="round">
+      <rect x="-20" y="-40" width="840" height="110" rx="30" fill="#eab308"/>
+      <path d="M40 70 H760" fill="none" stroke-width="3" opacity=".4"/>
+      <rect x="90" y="66" width="34" height="62" rx="8" fill="#6b4f2a"/>
+      <rect x="676" y="66" width="34" height="62" rx="8" fill="#6b4f2a"/>
+      <rect x="383" y="66" width="34" height="46" rx="8" fill="#6b4f2a"/>
+    </g>
+    <g fill="none" stroke="#1f2328" stroke-width="2" opacity=".5">
+      <path d="M180 20 l20 10 M300 30 l14 -8 M520 18 l18 12 M600 34 l12 -10"/>
+    </g>
+    <path d="M240 64 q14 22 4 46" fill="none" stroke="#9aa1ab" stroke-width="2" opacity=".6"/>
+    <path d="M246 108 q-8 10 2 16 q10 -6 2 -16z" fill="#9aa1ab" opacity=".6"/>
+  </svg>
+
+  <div class="wrap">
+    <header>
+      <h1>Under sofaen</h1>
+      <p>Her havner alt som forsvinner. Mynter, sokker, fjernkontrollen. Og nå deg.</p>
+      <a class="snu-tilbake" href="/">↻ Snu sofaen tilbake</a>
+    </header>
+
+    <section class="lapp" aria-labelledby="puter-tittel">
+      <h2 id="puter-tittel">Grav i sofaputene</h2>
+      <p class="liten">Løft en pute og se hva som ligger der. Det er alltid noe.</p>
+      <div class="puter">
+        <button class="pute" type="button" aria-label="Løft venstre pute"></button>
+        <button class="pute" type="button" aria-label="Løft midterste pute"></button>
+        <button class="pute" type="button" aria-label="Løft høyre pute"></button>
+      </div>
+      <p class="funn" aria-live="polite">Putene venter.</p>
+      <div class="tall"><span class="formue">0 kr</span><span class="antall">0 ting funnet</span></div>
+      <ul class="samling" aria-label="Samlingen din"></ul>
+    </section>
+
+    <section class="lapp" aria-labelledby="spill-tittel">
+      <h2 id="spill-tittel">Fang ølen</h2>
+      <p class="liten">Flytt sofaen med musa, fingeren eller piltastene.</p>
+      <ul class="regler-spill">
+        <li>Øl: 1 poeng</li><li>Chips: 2 poeng</li><li>Brokkoli, regninger og manualer: unngå</li>
+      </ul>
+      <div class="spill">
+        <canvas width="680" height="380" aria-label="Spillet Fang ølen"></canvas>
+        <div class="over">
+          <div>
+            <b class="over-tittel">Fang ølen</b>
+            <p class="over-tekst">Tre liv. Ingen unnskyldninger.</p>
+            <button class="knapp start" type="button">Start</button>
+          </div>
+        </div>
+      </div>
+      <p class="liten rekord" style="margin-top:8px">Rekord: 0</p>
+    </section>
+
+    <section class="lapp" aria-labelledby="unnsk-tittel">
+      <h2 id="unnsk-tittel">Unnskyldningsgeneratoren</h2>
+      <p class="liten">Vitenskapelig testet på mødre, sjefer og samboere.</p>
+      <p class="sitat unnskyldning" aria-live="polite">Trykk på knappen. Det tar mindre tid enn å finne på en selv.</p>
+      <div class="knapper">
+        <button class="knapp ny-unnsk" type="button">Ny unnskyldning</button>
+        <button class="knapp nei kopier" type="button">Kopier</button>
+      </div>
+    </section>
+
+    <section class="lapp horoskop" aria-labelledby="horo-tittel">
+      <h2 id="horo-tittel">Dagens slabbehoroskop</h2>
+      <p class="liten">Stjernene har snakket. De ligger også på sofaen.</p>
+      <select aria-label="Stjernetegnet ditt"></select>
+      <p class="sitat spaadom" aria-live="polite"></p>
+      <dl>
+        <dt>Lykkefarge</dt><dd class="farge"></dd>
+        <dt>Lykketall</dt><dd class="lykketall"></dd>
+        <dt>Unngå</dt><dd class="unnga"></dd>
+      </dl>
+    </section>
+
+    <section class="lapp" aria-labelledby="kunde-tittel">
+      <h2 id="kunde-tittel">Sofa-kundeservice</h2>
+      <p class="liten">Åpent døgnet rundt. Bemannet sjelden.</p>
+      <div class="chat" aria-live="polite">
+        <p class="bot">Hei! Du har kommet til Sofa-kundeservice. Hvordan kan vi ikke hjelpe deg i dag?</p>
+      </div>
+      <form class="send">
+        <input type="text" maxlength="200" placeholder="Skriv en melding…" aria-label="Melding til kundeservice">
+        <button class="knapp" type="submit">Send</button>
+      </form>
+    </section>
+
+    <footer>
+      Du er på baksiden av <a href="/">slabbedask.no</a>. Den er like rotete som forsiden.
+    </footer>
+  </div>
+
+  <script src="/lyd.js" defer></script>
+  <script src="/merker.js" defer></script>
+  <script>
+  addEventListener("DOMContentLoaded", () => {
+    const S = window.slabbe;
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const pick = (list) => list[Math.floor(Math.random() * list.length)];
+    S.merke("bakside");
+
+    $(".snu-tilbake").addEventListener("click", (e) => { e.preventDefault(); S.snuTil("/"); });
+
+    // ---------------- Sofaputene ----------------
+    const PUTE = '<svg viewBox="0 0 200 110" aria-hidden="true"><rect x="8" y="20" width="184" height="80" rx="28" fill="#facc15" stroke="#1f2328" stroke-width="5"/><path d="M40 60 q60 -14 120 0" fill="none" stroke="#ca8a04" stroke-width="3" stroke-linecap="round"/></svg>';
+    const TING = [
+      { id: "1kr", navn: "en enkrone", kr: 1, w: 20 },
+      { id: "5kr", navn: "en femmer", kr: 5, w: 12 },
+      { id: "10kr", navn: "en tier", kr: 10, w: 9 },
+      { id: "20kr", navn: "en tjuekroning", kr: 20, w: 5 },
+      { id: "50kr", navn: "en krøllete femtilapp", kr: 50, w: 1.2 },
+      { id: "chips", navn: "et chips fra 2019", w: 10, tekst: "Du spiste det. Det smakte 2019." },
+      { id: "sokk", navn: "en sokk", w: 8, tekst: "Den andre er borte for alltid." },
+      { id: "lego", navn: "en legokloss", w: 6, tekst: "AU. Hvordan kan noe så lite gjøre så vondt?" },
+      { id: "kvittering", navn: "en kvittering", w: 6, tekst: "Seks pizzaer. Samme dag. Ingen dømmer." },
+      { id: "strikk", navn: "et hårstrikk", w: 5, tekst: "Ingen vet hvem sitt det er." },
+      { id: "batteri", navn: "et AA-batteri", w: 4, tekst: "Tomt. Selvfølgelig." },
+      { id: "nokkel", navn: "nøkkelen du lette etter i 2017", w: 2, tekst: "Den passer ikke til noe lenger." },
+      { id: "brod", navn: "en halv brødskive", w: 3, tekst: "Ikke spis den. …Du spiste den." },
+      { id: "penn", navn: "en lånt penn", w: 4, tekst: "Behold den. Det er tradisjon." },
+      { id: "kapsel", navn: "en ølkapsel", w: 5, tekst: "Fra en fest ingen husker." },
+      { id: "ingenting", navn: "ingenting", w: 7, tekst: "Bare smuler. Mange smuler." },
+      { id: "diplom", navn: "diplomet!", w: 1.5, tekst: "Det står navnet ditt på det. Nesten." },
+      { id: "fjernkontroll", navn: "FJERNKONTROLLEN!", w: 1.2, tekst: "Den har vært her hele tiden. Selvfølgelig." },
+    ];
+    const lager = S.les("slabbe-sofa", { kr: 0, graving: 0, har: [] });
+    const har = new Set(lager.har);
+    const putene = $$(".pute"), funn = $(".funn");
+    function oppdaterSofa() {
+      $(".formue").textContent = `${lager.kr} kr`;
+      $(".antall").textContent = `${lager.graving} ting funnet`;
+      $(".samling").innerHTML = TING.map((t) => har.has(t.id) ? `<li class="har">${t.navn.replace(/^(en|et) /, "")}</li>` : "<li>???</li>").join("");
+      lager.har = [...har];
+      S.skriv("slabbe-sofa", lager);
+    }
+    function trekk() {
+      // Fjernkontrollen og diplomet dukker garantert opp før eller siden
+      if (!har.has("diplom") && lager.graving >= 12) return TING.find((t) => t.id === "diplom");
+      if (!har.has("fjernkontroll") && lager.graving >= 25) return TING.find((t) => t.id === "fjernkontroll");
+      let r = Math.random() * TING.reduce((s, t) => s + t.w, 0);
+      return TING.find((t) => (r -= t.w) < 0) || TING[0];
+    }
+    putene.forEach((p) => {
+      p.innerHTML = PUTE + '<span class="fant"></span>';
+      p.addEventListener("click", () => {
+        if (p.classList.contains("oppe")) return;
+        const t = trekk();
+        lager.graving++;
+        har.add(t.id);
+        if (t.kr) lager.kr += t.kr;
+        p.querySelector(".fant").textContent = t.kr ? `+${t.kr} kr` : t.navn.replace(/^(en|et) /, "");
+        p.classList.add("oppe");
+        setTimeout(() => p.classList.remove("oppe"), 1400);
+        funn.textContent = `Du fant ${t.navn}${t.navn.endsWith("!") ? "" : "."}` + (t.kr ? " Sofaformuen vokser." : "") + (t.tekst ? ` ${t.tekst}` : "");
+        if (t.kr) S.lyd("mynt"); else S.lyd("plopp");
+        if (t.id === "fjernkontroll") { S.regn("fjernkontroll", 20); S.merke("fjernkontroll"); }
+        if (t.id === "diplom") {
+          funn.append(" ");
+          const a = document.createElement("a");
+          a.href = "/#diplom"; a.textContent = "Se diplomet";
+          funn.append(a);
+        }
+        if (lager.kr >= 100) S.merke("rik");
+        oppdaterSofa();
+      });
+    });
+    oppdaterSofa();
+
+    // ---------------- Fang ølen ----------------
+    const cv = $(".spill canvas"), g = cv.getContext("2d"), over = $(".spill .over");
+    const W = cv.width, H = cv.height, SOFA_W = 110;
+    let rekord = S.les("slabbe-rekord", 0);
+    $(".rekord").textContent = `Rekord: ${rekord}`;
+    let spiller, ting, poeng, liv, fart, neste, sist, kjorer = false, taster = {};
+    const TYPER = [
+      { navn: "øl", p: 1, w: 62 }, { navn: "chips", p: 2, w: 12 },
+      { navn: "brokkoli", p: -1, w: 10 }, { navn: "regning", p: -1, w: 8 }, { navn: "manual", p: -1, w: 8 },
+    ];
+    const strek = () => { g.strokeStyle = "#1f2328"; g.lineWidth = 3; g.lineJoin = "round"; };
+    const rr = (x, y, w, h, r) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, h, r) : g.rect(x, y, w, h); };
+    function tegnTing(t) {
+      g.save(); g.translate(t.x, t.y); g.rotate(t.rot); strek();
+      if (t.navn === "øl") {
+        rr(-10, -18, 20, 36, 4); g.fillStyle = "#c9cdd3"; g.fill(); g.stroke();
+        g.fillStyle = "#e0a526"; g.fillRect(-8.5, -6, 17, 12);
+      } else if (t.navn === "chips") {
+        g.beginPath(); g.ellipse(0, 0, 16, 12, 0.3, 0, Math.PI * 2); g.fillStyle = "#f5c542"; g.fill(); g.stroke();
+      } else if (t.navn === "brokkoli") {
+        g.fillStyle = "#3f9b4f"; g.fillRect(-4, 0, 8, 16); g.strokeRect(-4, 0, 8, 16);
+        [[-9, -3], [9, -3], [0, -11], [0, 0]].forEach(([x, y]) => { g.beginPath(); g.arc(x, y, 9, 0, Math.PI * 2); g.fillStyle = "#2f8a3f"; g.fill(); g.stroke(); });
+      } else if (t.navn === "regning") {
+        rr(-14, -18, 28, 36, 2); g.fillStyle = "#fafaf7"; g.fill(); g.stroke();
+        g.fillStyle = "#e74c3c"; g.font = "900 11px system-ui"; g.textAlign = "center"; g.fillText("KR", 0, -4);
+        g.fillStyle = "#1f2328"; g.fillRect(-8, 4, 16, 2); g.fillRect(-8, 10, 12, 2);
+      } else {
+        g.fillStyle = "#3b4252"; g.fillRect(-16, -2, 32, 4); g.strokeRect(-16, -2, 32, 4);
+        rr(-22, -10, 8, 20, 2); g.fill(); g.stroke(); rr(14, -10, 8, 20, 2); g.fill(); g.stroke();
+      }
+      g.restore();
+    }
+    function tegnSofa(x) {
+      const y = H - 46; strek(); g.fillStyle = "#facc15";
+      rr(x - SOFA_W / 2, y, SOFA_W, 26, 8); g.fill(); g.stroke();
+      rr(x - SOFA_W / 2 - 10, y + 6, 16, 30, 6); g.fill(); g.stroke();
+      rr(x + SOFA_W / 2 - 6, y + 6, 16, 30, 6); g.fill(); g.stroke();
+      g.fillStyle = "#eab308"; rr(x - SOFA_W / 2 + 6, y + 20, SOFA_W - 12, 16, 4); g.fill(); g.stroke();
+    }
+    function tegn() {
+      g.clearRect(0, 0, W, H);
+      g.fillStyle = "rgba(255,255,255,.04)";
+      for (let i = 0; i < 8; i++) g.fillRect(0, H - 10 - i * 46, W, 1);
+      ting.forEach(tegnTing);
+      tegnSofa(spiller);
+      g.fillStyle = "#f1ebe2"; g.font = "800 20px system-ui"; g.textAlign = "left";
+      g.fillText(`Poeng: ${poeng}`, 14, 30);
+      g.textAlign = "right"; g.fillText("♥".repeat(liv) + "♡".repeat(3 - liv), W - 14, 30);
+      ting.filter((t) => t.tekst).forEach((t) => {
+        g.globalAlpha = Math.max(0, t.tekst.tid); g.textAlign = "center"; g.font = "900 18px system-ui";
+        g.fillStyle = t.p > 0 ? "#facc15" : "#ff7b6b"; g.fillText(t.tekst.s, t.x, H - 60 - (1 - t.tekst.tid) * 30);
+        g.globalAlpha = 1;
+      });
+    }
+    function slipp() {
+      let r = Math.random() * TYPER.reduce((s, t) => s + t.w, 0);
+      const type = TYPER.find((t) => (r -= t.w) < 0) || TYPER[0];
+      ting.push({ ...type, x: 24 + Math.random() * (W - 48), y: -24, v: fart * (0.8 + Math.random() * 0.5), rot: 0, spinn: (Math.random() - 0.5) * 4 });
+    }
+    function steg(t) {
+      if (!kjorer) return;
+      const dt = Math.min(0.05, (t - sist) / 1000); sist = t;
+      const k = (taster.ArrowRight || taster.d ? 1 : 0) - (taster.ArrowLeft || taster.a ? 1 : 0);
+      spiller = Math.max(SOFA_W / 2, Math.min(W - SOFA_W / 2, spiller + k * 520 * dt));
+      neste -= dt;
+      if (neste <= 0) { slipp(); neste = Math.max(0.28, 1 - poeng * 0.018) * (0.6 + Math.random() * 0.6); }
+      fart = 140 + poeng * 5;
+      for (const o of ting) {
+        if (o.tekst) { o.tekst.tid -= dt * 1.5; continue; }
+        o.y += o.v * dt; o.rot += o.spinn * dt;
+        if (o.y > H - 56 && o.y < H - 20 && Math.abs(o.x - spiller) < SOFA_W / 2 + 10) {
+          if (o.p > 0) { poeng += o.p; S.lyd(o.navn === "chips" ? "knas" : "pip"); o.tekst = { s: `+${o.p}`, tid: 1 }; }
+          else { liv--; S.lyd("feil"); o.tekst = { s: pick(["Æsj!", "Nei!", "Uff!"]), tid: 1 }; }
+          o.y = H + 100;
+        }
+      }
+      ting = ting.filter((o) => (o.tekst ? o.tekst.tid > 0 : o.y < H + 40));
+      tegn();
+      if (liv <= 0) return slutt();
+      requestAnimationFrame(steg);
+    }
+    function start() {
+      spiller = W / 2; ting = []; poeng = 0; liv = 3; fart = 140; neste = 0.4;
+      over.hidden = true; kjorer = true; sist = performance.now();
+      requestAnimationFrame(steg);
+    }
+    function slutt() {
+      kjorer = false;
+      const ny = poeng > rekord;
+      if (ny) { rekord = poeng; S.skriv("slabbe-rekord", rekord); $(".rekord").textContent = `Rekord: ${rekord}`; }
+      if (poeng >= 25) S.merke("fanger");
+      $(".over-tittel").textContent = ny ? `Ny rekord: ${poeng}!` : `${poeng} poeng`;
+      $(".over-tekst").textContent = poeng >= 25 ? "Imponerende. Nå trenger du en lur." : poeng >= 10 ? "Ikke verst. For en slabbedask." : "Brokkolien vant. Igjen.";
+      $(".start").textContent = "En gang til";
+      over.hidden = false;
+      $(".start").focus();
+    }
+    $(".start").addEventListener("click", start);
+    const flytt = (e) => { const r = cv.getBoundingClientRect(); spiller = Math.max(SOFA_W / 2, Math.min(W - SOFA_W / 2, ((e.clientX - r.left) / r.width) * W)); };
+    cv.addEventListener("pointermove", flytt);
+    cv.addEventListener("pointerdown", flytt);
+    addEventListener("keydown", (e) => {
+      if (!kjorer) return;
+      if (["ArrowLeft", "ArrowRight", "a", "d"].includes(e.key)) { taster[e.key] = true; e.preventDefault(); }
+    });
+    addEventListener("keyup", (e) => { taster[e.key] = false; });
+    document.addEventListener("visibilitychange", () => { if (document.hidden && kjorer) { liv = 0; } });
+    spiller = W / 2; ting = []; poeng = 0; liv = 3; tegn();
+
+    // ---------------- Unnskyldninger ----------------
+    const START = ["Beklager, jeg kunne ikke komme fordi", "Jeg rakk ikke å rydde, for", "Jeg har ikke svart på meldingen din fordi",
+      "Jeg blir litt sen, for", "Jeg kan dessverre ikke hjelpe deg å flytte, fordi", "Treningen må vente, for", "Jeg glemte bursdagen din fordi"];
+    const HVEM = ["katten min", "sofaen", "naboens drill", "fjernkontrollen", "en due", "vaskemaskinen", "onkel Trond",
+      "mobilen min", "en uvanlig sterk pizza", "tv-en", "en støvdott ved navn Bjarne", "kroppen min"];
+    const HVA = ["har låst meg inne", "spurte om jeg fortsatt så på", "har fått følelser for meg", "ble borte i sofaputene",
+      "har startet en fagforening", "nektet å samarbeide", "sa at jeg trengte hvile", "utfordret meg til en duell",
+      "har tatt meg som gissel", "gikk i dvale", "ba meg vente litt", "har bestemt at det er søndag"];
+    const SLUTT = [".", ". Det er helt sant.", ". Igjen.", ". Det samme skjedde i fjor.", ". Jeg har bilde, men det er uskarpt.", ". Legen var enig.", ". Du hadde gjort det samme."];
+    let unnsk = 0;
+    $(".ny-unnsk").addEventListener("click", () => {
+      $(".unnskyldning").textContent = `${pick(START)} ${pick(HVEM)} ${pick(HVA)}${pick(SLUTT)}`;
+      S.lyd("pip");
+      if (++unnsk === 10) S.merke("unnskyldning");
+    });
+    $(".kopier").addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText($(".unnskyldning").textContent); S.melding("Kopiert!", "Bruk den med omhu. Eller i kveld."); }
+      catch { S.melding("Fikk ikke kopiert.", "Du får skrive den av. Beklager."); }
+    });
+
+    // ---------------- Horoskopet ----------------
+    const TEGN = ["Væren", "Tyren", "Tvillingene", "Krepsen", "Løven", "Jomfruen", "Vekten", "Skorpionen", "Skytten", "Steinbukken", "Vannmannen", "Fiskene"];
+    const SPAADOM = [
+      "Stjernene står gunstig for å bli liggende. Ikke kjemp imot.",
+      "En fremmed vil spørre deg om hjelp. Lat som du ikke hørte det.",
+      "I dag finner du noe du har mistet. Sannsynligvis under sofaen.",
+      "Merkur er i retrograd. Det er en perfekt unnskyldning for alt.",
+      "Du får en uventet melding. Svar på den neste uke.",
+      "Et stort prosjekt venter på deg. Det kan vente litt til.",
+      "Kjærligheten banker på døra. Det er faktisk pizzabudet.",
+      "Dagen egner seg godt til å planlegge å gjøre noe.",
+      "Du vil føle et sterkt behov for å rydde. Legg deg ned til det går over.",
+      "Universet ber deg ta en pause. Du har jobbet hardt (med å ta pauser).",
+      "Noen nær deg vil spørre om du har sett fjernkontrollen. Det har du ikke.",
+      "En gammel venn vil dukke opp. Han vil låne noe. Ikke gi ham pennen.",
+    ];
+    const FARGER = ["sofagul", "chipsoransje", "pizzarød", "ølbrun", "tv-blå", "sokkegrå", "støvdottgrå", "brokkoligrønn (beklager)"];
+    const UNNGA = ["trapper", "brokkoli", "tidlige møter", "spørsmålet «hva gjør du egentlig?»", "joggesko", "regninger", "folk som sier «kom igjen!»", "oppvasken"];
+    const hash = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+    const sel = $(".horoskop select");
+    sel.innerHTML = TEGN.map((t, i) => `<option value="${i}">${t}</option>`).join("");
+    sel.value = S.les("slabbe-tegn", 0);
+    function horoskop() {
+      S.skriv("slabbe-tegn", Number(sel.value));
+      const h = hash(new Date().toDateString() + sel.value);
+      $(".spaadom").textContent = SPAADOM[h % SPAADOM.length];
+      $(".farge").textContent = FARGER[(h >>> 4) % FARGER.length];
+      $(".lykketall").textContent = `${(h >>> 8) % 3}, altså antall ting du rekker i dag`;
+      $(".unnga").textContent = UNNGA[(h >>> 12) % UNNGA.length];
+    }
+    sel.addEventListener("change", horoskop);
+    horoskop();
+
+    // ---------------- Kundeservice ----------------
+    const chat = $(".chat"), felt = $(".send input");
+    const SVAR = [
+      "Takk for din henvendelse. Du er nummer {kø} i køen.",
+      "Hm.",
+      "Kan du ta det igjen, men saktere?",
+      "Vi har lunsj. Den varer til i morgen.",
+      "Har du prøvd å skru det av og på igjen? Ikke sofaen, altså.",
+      "Saken er registrert. Den vil bli behandlet når noen gidder.",
+      "Beklager, jeg sovnet. Hva var spørsmålet?",
+      "Jeg skal sjekke med sjefen. *legger seg på sofaen*",
+      "Det er dessverre utenfor vårt ansvarsområde. Vi har ikke noe ansvarsområde.",
+      "Godt spørsmål. Neste.",
+      "Vi setter pris på tålmodigheten din. Den kommer til å bli satt på prøve.",
+      "Ok.",
+    ];
+    const NOKKEL = [
+      [/hjelp/i, "Har du prøvd å legge deg ned? Det hjelper for det meste."],
+      [/pizza/i, "Pizzaen er på vei. Den har vært på vei siden 2019."],
+      [/rydd/i, "Saken er sendt videre til avdelingen for «i morgen»."],
+      [/fjernkontroll/i, "Har du sjekket mellom putene? Lenger opp på siden."],
+      [/sjef|leder/i, "Sjefen ligger på sofaen. Han sa «nei» før du spurte."],
+      [/takk/i, "Bare hyggelig. Vi gjorde ingenting."],
+      [/hei|hallo/i, "Hei. Hva vil du? Altså, hvordan kan vi hjelpe?"],
+      [/øl/i, "Den står i kjøleskapet. Du må hente den selv. Det er policy."],
+    ];
+    let meldinger = 0, ko = 4812, venter = false;
+    const legg = (tekst, klasse) => {
+      const p = document.createElement("p");
+      p.className = klasse; p.textContent = tekst;
+      chat.append(p); chat.scrollTop = chat.scrollHeight;
+      return p;
+    };
+    $(".send").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const tekst = felt.value.trim();
+      if (!tekst) return;
+      felt.value = "";
+      legg(tekst, "meg");
+      meldinger++;
+      ko = Math.max(1, ko - Math.floor(Math.random() * 40)) + (Math.random() < 0.3 ? 200 : 0);
+      if (venter) return; // de svarer på én ting av gangen. Om noen.
+      venter = true;
+      const skriver = legg("Kundeservice skriver…", "bot skriver");
+      const treff = NOKKEL.find(([r]) => r.test(tekst));
+      let svar = meldinger === 10
+        ? "Gratulerer, du har brukt mer tid på dette enn oss. Saken er lukket. Ha en fin dag."
+        : treff && Math.random() < 0.8 ? treff[1] : pick(SVAR);
+      svar = svar.replace("{kø}", ko.toLocaleString("nb-NO"));
+      const lurt = Math.random() < 0.2 && meldinger !== 10;
+      setTimeout(() => {
+        if (lurt) { skriver.textContent = "Kundeservice har sluttet å skrive."; skriver.className = "bot skriver"; venter = false; return; }
+        skriver.remove();
+        legg(svar, "bot");
+        S.lyd("pip");
+        venter = false;
+        if (meldinger >= 10) S.merke("kundeservice");
+      }, 1200 + Math.random() * 3000);
+    });
+
+    // ---------------- Støvdotten Bjarne ----------------
+    const bjarne = document.createElement("button");
+    bjarne.type = "button";
+    bjarne.className = "stovdott";
+    bjarne.setAttribute("aria-label", "En støvdott");
+    bjarne.innerHTML = `<svg viewBox="0 0 54 44" aria-hidden="true"><g class="kropp">
+      <path d="M6 40 q-6 -10 2 -16 q-2 -12 10 -14 q6 -10 16 -4 q12 -2 14 10 q8 6 2 16 q2 6 -6 8 H10 q-6 0 -4 0z" fill="#9aa1ab" stroke="#1f2328" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M10 20 l-4 -4 M24 8 l-1 -6 M40 14 l4 -5 M48 26 l5 -1" stroke="#9aa1ab" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="20" cy="26" r="5" fill="#fff" stroke="#1f2328" stroke-width="2"/><circle cx="34" cy="26" r="5" fill="#fff" stroke="#1f2328" stroke-width="2"/>
+      <circle cx="21" cy="27" r="2" fill="#1f2328"/><circle cx="35" cy="27" r="2" fill="#1f2328"/></g></svg>`;
+    const GJEMMESTEDER = [
+      [".puter", "top: -40px; right: 8px;"],
+      ["header", "bottom: -10px; left: 0;"],
+      [".spill", "bottom: 4px; left: 6px;"],
+      [".horoskop h2", "top: -36px; right: 0;"],
+      ["footer", "top: -30px; right: 10%;"],
+      [".chat", "top: 6px; right: 8px;"],
+    ];
+    const BJARNE = ["Pip!", "Hei! Ikke rør!", "Jeg heter Bjarne.", "Kos? Ok, litt kos.", "Du er ok, du."];
+    let plass = 0, klapp = 0;
+    function gjem() {
+      plass = (plass + 1 + Math.floor(Math.random() * (GJEMMESTEDER.length - 1))) % GJEMMESTEDER.length;
+      const [sel, stil] = GJEMMESTEDER[plass];
+      const hjem = $(sel);
+      if (getComputedStyle(hjem).position === "static") hjem.style.position = "relative";
+      bjarne.style.cssText = stil;
+      hjem.append(bjarne);
+    }
+    bjarne.addEventListener("click", () => {
+      S.melding(BJARNE[Math.min(klapp, BJARNE.length - 1)]);
+      S.lyd("pip");
+      klapp++;
+      if (klapp === 5) { S.merke("stovdott"); return; } // nå er han trygg og blir der han er
+      if (klapp > 5) return;
+      bjarne.classList.add("flykter");
+      setTimeout(() => { bjarne.classList.remove("flykter"); gjem(); }, 400);
+    });
+    plass = Math.floor(Math.random() * GJEMMESTEDER.length) - 1;
+    gjem();
+
+    // Hemmelige ord virker her også
+    S.ord("øl", () => { S.regn("øl", 30); S.merke("hemmelig"); });
+    S.ord("penger", () => { S.regn("mynt", 30); S.lyd("mynt"); S.merke("hemmelig"); });
+    S.ord("forside", () => S.snuTil("/"));
+  });
+  </script>
+</body>
+</html>
