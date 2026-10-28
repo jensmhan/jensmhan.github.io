@@ -14,9 +14,7 @@
       --text: #1f2328;
       --muted: #5c6370;
       --accent: #2563eb;
-      --card: #ffffff;
       --border: #e5e7eb;
-      --panel: rgba(250, 250, 247, 0.84);
       --scene-floor: #e4d3b8;
       --scene-line: #d2bc98;
       --scene-base: #efe9de;
@@ -28,9 +26,7 @@
         --text: #e6e8eb;
         --muted: #9aa1ab;
         --accent: #60a5fa;
-        --card: #171a21;
         --border: #262a33;
-        --panel: rgba(15, 17, 21, 0.82);
         --scene-floor: #1e1b17;
         --scene-line: #2b2620;
         --scene-base: #181b21;
@@ -50,44 +46,20 @@
     /* Slabbedasken i bakgrunnen (tegnet i scene.svg, styrt av scene.js) */
     #scene {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 0;
-      height: min(66vh, 78vw);
+      height: min(74vh, 90vw);
       pointer-events: none;
     }
     #scene svg { display: block; width: 100%; height: 100%; overflow: visible; }
-    .scene-space { height: 72vh; } /* luft nederst, så du ser ham ligge på gulvet */
-    /* Brede skjermer: tekst til venstre, slabbedasken til høyre */
-    @media (min-width: 1000px) {
-      .wrap { margin-left: max(24px, 5vw); max-width: 560px; }
-      #scene { left: calc(max(24px, 5vw) + 600px); height: min(82vh, 52vw); }
-    }
-    section, footer {
-      background: var(--panel);
-      -webkit-backdrop-filter: blur(6px);
-      backdrop-filter: blur(6px);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      margin: 16px 0;
-    }
+    /* Tom plass å bla gjennom mens han faller ut av sofaen */
+    .scroll-room { height: 200vh; }
+
     header { padding: 64px 0 32px; }
-    h1 { font-size: 2.4rem; margin: 0 0 8px; letter-spacing: -0.02em; }
     h1.logo { margin: 0 0 16px; line-height: 0; }
     h1.logo img { height: 56px; width: auto; max-width: 100%; }
     .lead { color: var(--muted); font-size: 1.15rem; margin: 0; }
-    nav { display: flex; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    section { padding: 20px 24px; }
-    h2 { font-size: 1.3rem; margin: 0 0 12px; }
-    .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-    }
-    .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
-    .card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-    footer { padding: 16px 24px; color: var(--muted); font-size: 0.9rem; }
+    footer { padding: 12px 0; color: var(--muted); font-size: 0.85rem; text-align: center; }
   </style>
 </head>
 <body>
@@ -96,47 +68,13 @@
     <header>
       <h1 class="logo"><img src="/logo.svg" alt="Slabbedask" width="276" height="56"></h1>
       <p class="lead">Velkommen din forbanna slabbedask!</p>
-      <nav>
-        <a href="#om">Om meg</a>
-        <a href="#prosjekter">Prosjekter</a>
-        <a href="#kontakt">Kontakt</a>
-      </nav>
     </header>
 
-    <main>
-      <section id="om">
-        <h2>Om meg</h2>
-        <p>Her kan du skrive litt om deg selv – hva du jobber med, hva du interesserer deg for, og hva besøkende kan finne på denne siden.</p>
-      </section>
-
-      <section id="prosjekter">
-        <h2>Prosjekter</h2>
-        <div class="cards">
-          <div class="card">
-            <h3>Prosjekt 1</h3>
-            <p>En kort beskrivelse av prosjektet.</p>
-          </div>
-          <div class="card">
-            <h3>Prosjekt 2</h3>
-            <p>En kort beskrivelse av prosjektet.</p>
-          </div>
-          <div class="card">
-            <h3>Prosjekt 3</h3>
-            <p>En kort beskrivelse av prosjektet.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="kontakt">
-        <h2>Kontakt</h2>
-        <p>Finn meg på <a href="https://github.com/jensmhan">GitHub</a>.</p>
-      </section>
-    </main>
+    <div class="scroll-room" aria-hidden="true"></div>
 
     <footer>
       © <span id="year"></span> Slabbedask
     </footer>
-    <div class="scene-space" aria-hidden="true"></div>
   </div>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
   <script src="/scene.js" defer></script>
