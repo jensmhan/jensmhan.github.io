@@ -59,7 +59,7 @@
         const armA = p < T.land[0]
           ? lerp(0, 170, easeOut(seg(p, 0.36, 0.56)))
           : lerp(170, 86, easeInOut(seg(p, T.land[0], 0.8)));
-        el.arm.setAttribute("transform", `rotate(${armA} 308 322)`);
+        el.arm.setAttribute("transform", `rotate(${armA} 348 330)`);
 
         // Ølboksen følger hånden til han faller, så flyr den i en bue
         if (p < T.beer[0]) {
