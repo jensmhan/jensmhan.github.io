@@ -11,6 +11,28 @@
       <stop offset="0" stop-color="#ffe08a" stop-opacity=".6"/>
       <stop offset="1" stop-color="#ffe08a" stop-opacity=".12"/>
     </linearGradient>
+    <!-- Slabbedasken: hud, klær og ølboks -->
+    <radialGradient id="p-hud" cx=".4" cy=".35" r=".75">
+      <stop offset="0" stop-color="#f7d3b6"/><stop offset=".6" stop-color="#edb894"/><stop offset="1" stop-color="#d79a78"/>
+    </radialGradient>
+    <radialGradient id="p-mage" cx=".78" cy=".32" r=".62">
+      <stop offset="0" stop-color="#f6ceae"/><stop offset=".55" stop-color="#e9b38f"/><stop offset="1" stop-color="#c98a68"/>
+    </radialGradient>
+    <linearGradient id="p-singlet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fcfaf4"/><stop offset=".5" stop-color="#efe9dc"/><stop offset="1" stop-color="#d3cab7"/>
+    </linearGradient>
+    <linearGradient id="p-boks" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8a9098"/><stop offset=".28" stop-color="#eef0f2"/><stop offset=".6" stop-color="#c2c7cd"/><stop offset="1" stop-color="#858b93"/>
+    </linearGradient>
+    <linearGradient id="p-etikett" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ad6f14"/><stop offset=".3" stop-color="#f3bf45"/><stop offset=".65" stop-color="#df9f22"/><stop offset="1" stop-color="#a1650f"/>
+    </linearGradient>
+    <linearGradient id="p-sokk" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fdfcf8"/><stop offset="1" stop-color="#d9d3c6"/>
+    </linearGradient>
+    <clipPath id="p-mageform"><ellipse cx="430" cy="294" rx="110" ry="60"/></clipPath>
+    <clipPath id="p-oye-l"><ellipse cx="257" cy="267" rx="7.6" ry="5.6"/></clipPath>
+    <clipPath id="p-oye-r"><ellipse cx="286" cy="267" rx="7.6" ry="5.6"/></clipPath>
   </defs>
   <style>
     .o { stroke: #1f2328; stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
@@ -24,6 +46,9 @@
       0%   { transform: rotate(0deg) translateX(var(--r)) rotate(0deg); }
       100% { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); }
     }
+    /* Slabbedasken tegnes med litt finere strek enn resten av stua */
+    .p { stroke: #1f2328; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .pl { fill: none; stroke: #1f2328; stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
     #glow { animation: flicker 7s steps(1) infinite; }
     /* Klikkbare ting */
     #person, .fly-wrap { pointer-events: visiblePainted; cursor: pointer; }
@@ -278,107 +303,199 @@
 
   <!-- ===================== Slabbedasken ===================== -->
   <g id="person">
-    <!-- Bena (joggebukse) -->
-    <path d="M512 314 L622 296 L768 262" fill="none" stroke="#1f2328" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M512 314 L622 296 L768 262" fill="none" stroke="#7d8696" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M520 326 L630 312 L758 280" fill="none" stroke="#1f2328" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M520 326 L630 312 L758 280" fill="none" stroke="#8b93a1" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Sokker, med stortåa ute -->
-    <path d="M770 262 L790 222" stroke="#1f2328" stroke-width="34" stroke-linecap="round"/>
-    <path d="M770 262 L790 222" stroke="#f1f1ee" stroke-width="26" stroke-linecap="round"/>
-    <circle class="o skin" cx="795" cy="211" r="7"/>
-    <path d="M760 280 L781 241" stroke="#1f2328" stroke-width="34" stroke-linecap="round"/>
-    <path d="M760 280 L781 241" stroke="#ffffff" stroke-width="26" stroke-linecap="round"/>
-
-    <!-- Bukselinning -->
-    <rect class="o" x="488" y="292" width="64" height="58" rx="18" fill="#8b93a1"/>
-    <path class="ln" d="M500 300 Q506 324 500 346" stroke-width="3"/>
-
-    <!-- Overarmen til ølarmen, på baksiden av kroppen (mot sofaryggen) -->
-    <path d="M334 288 L368 226" fill="none" stroke="#1f2328" stroke-width="36" stroke-linecap="round"/>
-    <path d="M334 288 L368 226" fill="none" stroke="#f2c4a0" stroke-width="28" stroke-linecap="round"/>
-
-    <!-- Hals – går fra hodet inn under singleten -->
-    <path d="M268 288 L318 304" stroke="#1f2328" stroke-width="46" stroke-linecap="round"/>
-    <path d="M268 288 L318 304" stroke="#f2c4a0" stroke-width="38" stroke-linecap="round"/>
-
-    <!-- Overkropp i singlet, med skuldra -->
-    <path class="o" d="M304 352 L304 314 Q306 282 336 276 L410 262 L410 352 Z" fill="#f5f2ea"/>
-    <!-- Magen -->
-    <g id="belly">
-      <ellipse class="o skin" cx="430" cy="294" rx="112" ry="62"/>
-      <ellipse cx="430" cy="294" rx="110" ry="60" fill="#f5f2ea" clip-path="url(#shirt-clip)"/>
-      <ellipse class="ln" cx="430" cy="294" rx="112" ry="62"/>
-      <path class="ln" d="M490 238 Q482 296 492 354"/>
-      <path class="ln" d="M512 276 q5 7 10 0" stroke-width="3"/>
-      <path d="M378 252 q16 -10 30 0 q10 12 -4 20 q-14 8 -26 -2 q-10 -8 0 -18z" fill="#c9a26b" opacity=".75"/>
-      <circle cx="420" cy="292" r="5" fill="#c9a26b" opacity=".6"/>
+    <!-- Bakre fot: sokk med hull på stortåa -->
+    <g>
+      <path class="p" d="M756 262 C758 246 767 227 777 214 C784 204 799 202 804 212 C808 223 800 241 791 257 C787 266 777 272 767 271 Z" fill="url(#p-sokk)"/>
+      <path d="M797 220 C800 233 796 247 789 258" fill="none" stroke="#b9b09f" stroke-width="7" stroke-linecap="round" opacity=".6"/>
+      <path class="pl" d="M766 236 q6 4 14 2 M762 246 q7 4 16 2" stroke-width="1.4" opacity=".35"/>
+      <ellipse cx="797" cy="209" rx="6.5" ry="5" fill="#1f2328" opacity=".75"/>
+      <circle class="p" cx="797" cy="207.5" r="5.2" fill="url(#p-hud)" stroke-width="2.4"/>
+      <path d="M794.5 204.5 q2.5 -2 5 0" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".8"/>
     </g>
-    <!-- Halsåpning i singleten -->
-    <path d="M304 300 Q322 292 324 314 Q322 332 304 336 Z" fill="#f2c4a0"/>
-    <path class="ln" d="M304 300 Q322 292 324 314 Q322 332 304 336" stroke-width="3.5"/>
+    <!-- Bakre ben (joggebukse) -->
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M512 314 L622 296 L768 262" stroke="#1f2328" stroke-width="50"/>
+      <path d="M512 314 L622 296 L768 262" stroke="#747d8d" stroke-width="43"/>
+      <path d="M510 304 L620 286 L760 253" stroke="#9099a8" stroke-width="10" opacity=".55"/>
+      <path d="M516 327 L626 309 L762 275" stroke="#59616f" stroke-width="10" opacity=".45"/>
+      <path d="M746 267 L770 261" stroke="#636c7b" stroke-width="43"/>
+      <path class="pl" d="M610 280 q9 10 5 24 M628 278 q7 10 3 24 M566 292 q12 6 24 -1 M700 262 q8 4 18 0" stroke-width="2"/>
+      <path class="pl" d="M744 248 q5 11 2 24 M754 246 q5 11 2 24" stroke-width="1.6" opacity=".6"/>
+    </g>
+    <!-- Fremre fot: hel sokk, litt skitten under -->
+    <g transform="translate(-10 18)">
+      <path class="p" d="M756 262 C758 246 767 227 777 214 C784 204 799 202 804 212 C808 223 800 241 791 257 C787 266 777 272 767 271 Z" fill="url(#p-sokk)"/>
+      <path d="M797 220 C800 233 796 247 789 258" fill="none" stroke="#b9b09f" stroke-width="7" stroke-linecap="round" opacity=".6"/>
+      <path class="pl" d="M766 236 q6 4 14 2 M762 246 q7 4 16 2" stroke-width="1.4" opacity=".35"/>
+    </g>
+    <!-- Fremre ben -->
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M520 326 L630 312 L758 280" stroke="#1f2328" stroke-width="50"/>
+      <path d="M520 326 L630 312 L758 280" stroke="#858e9d" stroke-width="43"/>
+      <path d="M518 316 L628 302 L750 271" stroke="#a1a9b6" stroke-width="10" opacity=".55"/>
+      <path d="M524 339 L634 325 L752 293" stroke="#646c7b" stroke-width="10" opacity=".45"/>
+      <path d="M736 285 L760 279" stroke="#737c8b" stroke-width="43"/>
+      <path class="pl" d="M618 296 q9 10 5 24 M637 294 q7 10 3 24 M560 306 q14 6 28 -2 M690 284 q10 4 20 -1" stroke-width="2"/>
+      <path class="pl" d="M734 266 q5 11 2 24 M744 264 q5 11 2 24" stroke-width="1.6" opacity=".6"/>
+    </g>
+
+    <!-- Linninga med strikk og snøre -->
+    <path class="p" d="M486 300 Q488 289 500 289 L546 288 Q557 289 557 301 L557 340 Q557 352 545 352 L498 352 Q486 352 486 340 Z" fill="#7d8696"/>
+    <path class="pl" d="M490 299 Q522 294 554 298 M490 306 Q522 301 554 305" stroke-width="1.6" opacity=".45"/>
+    <path d="M540 330 q4 10 -2 20 M545 330 q6 8 6 18" fill="none" stroke="#1f2328" stroke-width="4" stroke-linecap="round"/>
+    <path d="M540 330 q4 10 -2 20 M545 330 q6 8 6 18" fill="none" stroke="#e9e4d8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M538 350 l-1 4 M551 348 l0.5 4" stroke="#1f2328" stroke-width="3.4" stroke-linecap="round"/>
+
+    <!-- Overarmen til ølarmen, bak kroppen -->
+    <path class="p" d="M320.8 280.8 C328 258 343 233 357.5 220.2 A12 12 0 0 1 378.5 231.8 C370 252 360 276 347.2 295.2 Z" fill="url(#p-hud)"/>
+    <path d="M370 234 C364 254 356 274 346 288" fill="none" stroke="#c98a68" stroke-width="5" stroke-linecap="round" opacity=".5"/>
+
+    <!-- Halsen -->
+    <path d="M268 288 L318 304" stroke="#1f2328" stroke-width="46" stroke-linecap="round"/>
+    <path d="M268 288 L318 304" stroke="#e8b28f" stroke-width="40" stroke-linecap="round"/>
+    <path d="M286 306 Q302 314 318 308" fill="none" stroke="#c98a68" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+
+    <!-- Skuldra i singlet, med stropp -->
+    <path class="p" d="M304 352 L304 314 Q306 282 336 276 L410 262 L410 352 Z" fill="url(#p-singlet)"/>
+    <path class="pl" d="M322 288 Q334 280 350 276" stroke-width="2"/>
+    <path class="pl" d="M350 276 Q346 296 334 304" stroke-width="1.8" opacity=".6"/>
+
+    <!-- Magen, med singleten som ikke rekker helt ned -->
+    <g id="belly">
+      <ellipse class="p" cx="430" cy="294" rx="112" ry="62" fill="url(#p-mage)"/>
+      <ellipse cx="430" cy="294" rx="110.5" ry="60.5" fill="url(#p-singlet)" clip-path="url(#shirt-clip)"/>
+      <g clip-path="url(#shirt-clip)"><g clip-path="url(#p-mageform)">
+        <path d="M320 226 q4 68 0 136 M327 226 q4 68 0 136 M334 226 q4 68 0 136 M341 226 q4 68 0 136 M348 226 q4 68 0 136 M355 226 q4 68 0 136 M362 226 q4 68 0 136 M369 226 q4 68 0 136 M376 226 q4 68 0 136 M383 226 q4 68 0 136 M390 226 q4 68 0 136 M397 226 q4 68 0 136 M404 226 q4 68 0 136 M411 226 q4 68 0 136 M418 226 q4 68 0 136 M425 226 q4 68 0 136 M432 226 q4 68 0 136 M439 226 q4 68 0 136 M446 226 q4 68 0 136 M453 226 q4 68 0 136 M460 226 q4 68 0 136 M467 226 q4 68 0 136 M474 226 q4 68 0 136 M481 226 q4 68 0 136 M488 226 q4 68 0 136" fill="none" stroke="#8c8370" stroke-width="1.2" opacity=".18"/>
+        <path d="M330 330 Q400 362 488 336 L488 360 L330 360 Z" fill="#b8ad97" opacity=".25"/>
+      </g></g>
+      <!-- Flekker: øl og noe brunt -->
+      <path d="M376 252 q16 -11 31 -1 q10 12 -4 21 q-15 8 -27 -2 q-10 -8 0 -18z" fill="#c9a26b" opacity=".55"/>
+      <path d="M392 262 q6 -3 10 1" fill="none" stroke="#a9834e" stroke-width="1.5" opacity=".6"/>
+      <ellipse cx="421" cy="293" rx="5" ry="4" fill="#a37b4c" opacity=".5"/>
+      <circle cx="432" cy="300" r="1.8" fill="#a37b4c" opacity=".5"/>
+      <!-- Kanten av singleten, rullet litt opp -->
+      <path d="M490 238 Q482 296 492 354" fill="none" stroke="#efe9dc" stroke-width="5"/>
+      <path class="pl" d="M490 238 Q482 296 492 354" stroke-width="3"/>
+      <path class="pl" d="M484 250 q-5 18 -3 36 M486 312 q-2 14 2 26" stroke-width="1.5" opacity=".45"/>
+      <!-- Navle, hår og strekkmerker -->
+      <path class="pl" d="M510 276 q8 -4 16 1" stroke-width="1.6" opacity=".55"/>
+      <ellipse cx="518" cy="282" rx="3" ry="4.2" fill="#7a4a36" opacity=".85"/>
+      <path d="M522 292 l3 2 M527 299 l2.5 2.5 M520 302 l3 1.5 M529 308 l2 3 M523 312 l3 2 M531 318 l1.5 3" fill="none" stroke="#6b5444" stroke-width="1.3" stroke-linecap="round" opacity=".6"/>
+      <path d="M502 252 q8 6 9 14 M508 324 q8 -2 14 -10" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".35"/>
+      <path class="pl" d="M470 350 q20 -6 34 -17" stroke-width="1.4" opacity=".3"/>
+      <ellipse class="pl" cx="430" cy="294" rx="112" ry="62" stroke-width="3.2"/>
+    </g>
+    <!-- Halsåpningen, med litt brysthår -->
+    <path d="M304 300 Q322 292 324 314 Q322 332 304 336 Z" fill="#e8b28f"/>
+    <path d="M308 306 q3 -3 5 0 q2 3 5 0 M306 315 q3 -3 5 0 q2 3 5 0 M309 324 q3 -3 5 0" fill="none" stroke="#4b3a2d" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+    <path class="pl" d="M304 300 Q322 292 324 314 Q322 332 304 336" stroke-width="3"/>
 
     <!-- Hodet, hviler på armlena -->
-    <circle class="o skin" cx="236" cy="278" r="9"/>
-    <circle class="o skin" cx="272" cy="270" r="40"/>
-    <path class="ln" d="M240 252 q2 -22 20 -18 q6 -14 22 -6 q10 -8 20 6" stroke-width="5"/>
-    <path id="brows" class="ln" d="M248 256 q12 -8 20 -4 M278 252 q10 -6 20 2" stroke-width="3.5"/>
-    <g fill="#1f2328" opacity=".35">
-      <circle cx="250" cy="292" r="1.8"/><circle cx="258" cy="298" r="1.8"/><circle cx="268" cy="302" r="1.8"/>
-      <circle cx="278" cy="302" r="1.8"/><circle cx="288" cy="298" r="1.8"/><circle cx="296" cy="291" r="1.8"/>
-      <circle cx="246" cy="284" r="1.8"/><circle cx="262" cy="306" r="1.8"/><circle cx="276" cy="308" r="1.8"/>
+    <path class="p" d="M240 265 C230 261 225 272 228 280 C230 287 236 291 242 288 Z" fill="url(#p-hud)"/>
+    <path class="pl" d="M235 270 q-4 5 0 11" stroke-width="1.6" opacity=".6"/>
+    <path class="p" d="M236 256 C236 232 256 222 276 224 C300 226 314 244 312 266 C311 284 306 298 296 306 C286 315 262 317 250 306 C240 298 234 280 236 256 Z" fill="url(#p-hud)"/>
+    <!-- Dobbelthake -->
+    <path class="pl" d="M254 314 q18 9 38 -4" stroke-width="1.8" opacity=".55"/>
+    <!-- Skjeggstubb -->
+    <path d="M239 284 C243 300 256 313 272 314 C289 314 301 302 307 288 C301 296 291 300 282 296 Q272 303 262 296 C253 300 245 296 239 284 Z" fill="#5b4a3f" opacity=".17"/>
+    <g fill="#3d3029" opacity=".3">
+      <circle cx="248" cy="296" r=".9"/><circle cx="254" cy="303" r=".9"/><circle cx="262" cy="308" r=".9"/><circle cx="271" cy="310" r=".9"/>
+      <circle cx="281" cy="309" r=".9"/><circle cx="290" cy="304" r=".9"/><circle cx="297" cy="297" r=".9"/><circle cx="258" cy="300" r=".9"/>
+      <circle cx="286" cy="300" r=".9"/><circle cx="266" cy="313" r=".9"/><circle cx="277" cy="314" r=".9"/><circle cx="302" cy="290" r=".9"/>
     </g>
-    <path class="ln" d="M254 308 q20 10 38 -2" stroke-width="3.5"/>
+    <!-- Røde kinn, rynker i panna -->
+    <ellipse cx="249" cy="285" rx="8" ry="5" fill="#e8907a" opacity=".28"/>
+    <ellipse cx="298" cy="283" rx="8" ry="5" fill="#e8907a" opacity=".28"/>
+    <path class="pl" d="M258 243 q14 -4 28 0 M262 237 q10 -3 20 0" stroke-width="1.3" opacity=".25"/>
+    <!-- Håret, på vikende front -->
+    <path d="M235 260 C230 236 248 219 272 219 C297 217 315 232 313 257 C307 245 299 240 291 242 C283 235 271 237 263 242 C253 239 242 246 235 260 Z" fill="#4b3a2d" stroke="#1f2328" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M246 236 q10 -10 24 -10 M276 226 q14 0 24 10 M256 230 q-4 -8 4 -14 M284 222 q8 -6 14 0" fill="none" stroke="#7a604c" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M268 220 q-6 -10 2 -16 q-1 7 4 10" fill="#4b3a2d" stroke="#1f2328" stroke-width="2" stroke-linejoin="round"/>
+    <path id="brows" d="M245 258 q10 -9 24 -6 q-1 3 -3 4 q-10 -2 -21 4z M277 252 q14 -5 25 4 q-2 2 -4 1 q-10 -5 -21 -2z" fill="#3d3029" stroke="#1f2328" stroke-width="1" stroke-linejoin="round"/>
+
+    <!-- Øynene: sover (lukket) -->
     <g id="eyes-sleepy">
-      <path class="ln" d="M249 266 q8 -3 16 0 M277 266 q8 -3 16 0" stroke-width="3.5"/>
-      <path d="M252 267 a5 3.5 0 0 0 10 0z M280 267 a5 3.5 0 0 0 10 0z" fill="#1f2328"/>
+      <path d="M249 265 Q257 262 265 265.5 Q257 270 249 265 Z M278 265 Q286 262 294 265.5 Q286 270 278 265 Z" fill="#d79a78" opacity=".55"/>
+      <path class="pl" d="M249 266 q8 5 16 0 M278 266 q8 5 16 0" stroke-width="2.4"/>
+      <path class="pl" d="M252 268.4 l-1.2 2.4 M256.5 269.4 v2.6 M261 268.8 l1.2 2.4 M281 268.4 l-1.2 2.4 M285.5 269.4 v2.6 M290 268.8 l1.2 2.4" stroke-width="1.3"/>
+      <path class="pl" d="M250 261.5 q7 -3.5 14 0 M279 261.5 q7 -3.5 14 0" stroke-width="1.4" opacity=".5"/>
     </g>
+    <!-- Øynene: sjokk (helt åpne) -->
     <g id="eyes-shock" opacity="0">
-      <circle class="o" cx="257" cy="266" r="8" fill="#fff" stroke-width="3"/>
-      <circle class="o" cx="286" cy="266" r="8" fill="#fff" stroke-width="3"/>
-      <circle cx="257" cy="267" r="3" fill="#1f2328"/><circle cx="286" cy="267" r="3" fill="#1f2328"/>
+      <ellipse class="p" cx="257" cy="266" rx="8" ry="7.5" fill="#fbf7f0" stroke-width="2.2"/>
+      <ellipse class="p" cx="286" cy="266" rx="8" ry="7.5" fill="#fbf7f0" stroke-width="2.2"/>
+      <circle cx="257" cy="266.5" r="3.4" fill="#6b8bb0"/><circle cx="286" cy="266.5" r="3.4" fill="#6b8bb0"/>
+      <circle cx="257" cy="266.5" r="1.5" fill="#1f2328"/><circle cx="286" cy="266.5" r="1.5" fill="#1f2328"/>
+      <circle cx="258.2" cy="265.3" r=".9" fill="#fff"/><circle cx="287.2" cy="265.3" r=".9" fill="#fff"/>
+      <path class="pl" d="M248 259 q9 -6 18 0 M277 259 q9 -6 18 0" stroke-width="1.5" opacity=".6"/>
     </g>
-    <circle class="o" cx="272" cy="281" r="7" fill="#e8907a" stroke-width="3"/>
+    <!-- Nesa, litt rød på tuppen -->
+    <path class="pl" d="M268 270 q-1 8 -4 13" stroke-width="1.5" opacity=".4"/>
+    <ellipse cx="272" cy="286" rx="8.5" ry="6.5" fill="#e3917d" opacity=".7"/>
+    <ellipse cx="273.5" cy="283" rx="2.2" ry="1.4" fill="#fff" opacity=".45"/>
+    <path class="pl" d="M265.5 284.5 q-5 5 0 8.5 q3 2 6 -1 M278.5 284.5 q5 5 0 8.5 q-3 2 -6 -1" stroke-width="2.1"/>
+    <ellipse cx="268.5" cy="290.6" rx="1.7" ry="1" fill="#5a2e2a" opacity=".7"/>
+    <ellipse cx="275.5" cy="290.6" rx="1.7" ry="1" fill="#5a2e2a" opacity=".7"/>
+    <!-- Munnen: sover med åpen munn og sikkel -->
     <g id="mouth-sleepy">
-      <path class="ln" d="M262 294 q10 7 20 -1" stroke-width="3.5"/>
-      <path d="M279 296 q2 8 -1 10 q-4 -2 -2 -9z" fill="#bfe3f5" stroke="#1f2328" stroke-width="1.5"/>
+      <path d="M262 299 Q272 303 282 299 Q279 306.5 272 307 Q265 306.5 262 299 Z" fill="#6e3430" stroke="#1f2328" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M266 304 q6 2.5 12 0" fill="none" stroke="#c8706a" stroke-width="2" stroke-linecap="round"/>
+      <path d="M265 310 q7 3 14 0" fill="none" stroke="#c98a72" stroke-width="1.6" stroke-linecap="round" opacity=".6"/>
+      <path d="M280.5 302 q3.5 8 0.5 12.5 q-4 -2 -2.5 -10.5z" fill="#bfe3f5" stroke="#1f2328" stroke-width="1.2"/>
     </g>
-    <ellipse id="mouth-shock" cx="272" cy="297" rx="6" ry="8" fill="#1f2328" opacity="0"/>
+    <g id="mouth-shock" opacity="0">
+      <ellipse class="p" cx="272" cy="302" rx="6.5" ry="8" fill="#5a2a26" stroke-width="2.2"/>
+      <path d="M267 296.5 q5 -2 10 0 v2 q-5 1.5 -10 0z" fill="#fbf7f0"/>
+      <path d="M268 307 q4 -3 8 0" fill="none" stroke="#c8706a" stroke-width="2" stroke-linecap="round"/>
+    </g>
 
     <!-- Våken, men lat: tunge øyelokk, pupillene følger musa -->
     <g id="eyes-awake" opacity="0">
-      <circle class="o" cx="257" cy="266" r="7.5" fill="#fff" stroke-width="3"/>
-      <circle class="o" cx="286" cy="266" r="7.5" fill="#fff" stroke-width="3"/>
-      <circle id="pupil-l" cx="257" cy="267" r="3.2" fill="#1f2328"/>
-      <circle id="pupil-r" cx="286" cy="267" r="3.2" fill="#1f2328"/>
-      <path d="M249.3 264.5 A7.7 7.7 0 0 1 264.7 264.5 Z M278.3 264.5 A7.7 7.7 0 0 1 293.7 264.5 Z" fill="#f2c4a0"/>
-      <path class="ln" d="M249 264.5 h16 M278 264.5 h16" stroke-width="3"/>
+      <ellipse cx="257" cy="267" rx="7.6" ry="5.6" fill="#fbf7f0"/>
+      <ellipse cx="286" cy="267" rx="7.6" ry="5.6" fill="#fbf7f0"/>
+      <g clip-path="url(#p-oye-l)"><g id="pupil-l"><circle cx="257" cy="267.5" r="3.8" fill="#6b8bb0"/><circle cx="257" cy="267.5" r="1.8" fill="#1f2328"/><circle cx="258.3" cy="266.4" r=".9" fill="#fff"/></g></g>
+      <g clip-path="url(#p-oye-r)"><g id="pupil-r"><circle cx="286" cy="267.5" r="3.8" fill="#6b8bb0"/><circle cx="286" cy="267.5" r="1.8" fill="#1f2328"/><circle cx="287.3" cy="266.4" r=".9" fill="#fff"/></g></g>
+      <path d="M248 266.5 Q257 262.5 266 266.5 L266 259 L248 259 Z M277 266.5 Q286 262.5 295 266.5 L295 259 L277 259 Z" fill="#eab592"/>
+      <path class="pl" d="M249 266.5 Q257 262.5 265 266.5 M278 266.5 Q286 262.5 294 266.5" stroke-width="2.4"/>
+      <path class="pl" d="M250 271.5 q7 2.5 14 0 M279 271.5 q7 2.5 14 0" stroke-width="1.3" opacity=".45"/>
+      <path class="pl" d="M250 262 q7 -3 14 0 M279 262 q7 -3 14 0" stroke-width="1.3" opacity=".45"/>
     </g>
-    <path id="mouth-awake" class="ln" d="M262 296 q10 3 20 -3" stroke-width="3.5" opacity="0"/>
+    <g id="mouth-awake" opacity="0">
+      <path class="pl" d="M262 300 q10 2.5 20 -1.5" stroke-width="2.4"/>
+      <path class="pl" d="M266 305 q6 2 12 0" stroke-width="1.4" opacity=".45"/>
+    </g>
     <!-- Irritert -->
-    <path id="brows-angry" class="ln" d="M247 250 l16 8 M297 250 l-16 8" stroke-width="4.5" opacity="0"/>
-    <path id="mouth-angry" class="ln" d="M261 300 q11 -8 22 0" stroke-width="3.5" opacity="0"/>
+    <path id="brows-angry" d="M245 249 l21 8 l-1.5 3.5 l-20 -6.5z M299 249 l-21 8 l1.5 3.5 l20 -6.5z" fill="#3d3029" stroke="#1f2328" stroke-width="1" stroke-linejoin="round" opacity="0"/>
+    <g id="mouth-angry" opacity="0">
+      <path class="pl" d="M262 303 q10 -6 20 0" stroke-width="2.6"/>
+      <path class="pl" d="M266 252 q2 4 1 7 M278 252 q-2 4 -1 7" stroke-width="1.3" opacity=".5"/>
+    </g>
     <!-- Morgen: poser under øynene -->
-    <path id="eyebags" d="M250 275 q7 4 14 0 M279 275 q7 4 14 0" fill="none" stroke="#9b6fa8" stroke-width="2.5" stroke-linecap="round" opacity="0"/>
+    <path id="eyebags" d="M250 274 q7 4 14 0 M279 274 q7 4 14 0" fill="none" stroke="#9b6fa8" stroke-width="2.2" stroke-linecap="round" opacity="0"/>
 
     <!-- Nisselue (bare i desember) -->
     <g id="hat" style="display:none">
-      <path class="o" d="M234 246 L302 234 Q292 192 246 182 Q216 176 196 186 Q226 204 234 246 Z" fill="#d63031" stroke-width="3.5"/>
-      <path d="M232 246 Q264 228 306 236" fill="none" stroke="#1f2328" stroke-width="20" stroke-linecap="round"/>
-      <path d="M232 246 Q264 228 306 236" fill="none" stroke="#fff" stroke-width="13" stroke-linecap="round"/>
-      <circle class="o" cx="194" cy="186" r="11" fill="#fff" stroke-width="3"/>
+      <path class="o" d="M232 244 L304 232 Q294 190 248 180 Q218 174 198 184 Q228 202 232 244 Z" fill="#d63031" stroke-width="3"/>
+      <path d="M250 196 q20 6 40 30" fill="none" stroke="#a82424" stroke-width="5" stroke-linecap="round" opacity=".6"/>
+      <path d="M230 244 Q264 226 308 234" fill="none" stroke="#1f2328" stroke-width="20" stroke-linecap="round"/>
+      <path d="M230 244 Q264 226 308 234" fill="none" stroke="#fbf8f1" stroke-width="13.5" stroke-linecap="round"/>
+      <circle class="o" cx="196" cy="184" r="11" fill="#fbf8f1" stroke-width="3"/>
     </g>
 
     <!-- Underarmen til ølarmen, over magen -->
-    <path d="M368 226 L404 254" fill="none" stroke="#1f2328" stroke-width="34" stroke-linecap="round"/>
-    <path d="M368 226 L404 254" fill="none" stroke="#f2c4a0" stroke-width="26" stroke-linecap="round"/>
+    <path class="p" d="M375.4 216.5 C390 226 402 236 410.1 246.1 L397.9 261.9 C386 252 372 244 360.6 235.5 A12 12 0 0 1 375.4 216.5 Z" fill="url(#p-hud)"/>
+    <path d="M364 238 C376 246 386 254 397 260" fill="none" stroke="#c98a68" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+    <path class="pl" d="M367 222 q-3 4 -2 8" stroke-width="1.5" opacity=".5"/>
+    <path d="M380 228 l3 -2 M388 234 l3 -2 M384 240 l3 -2 M394 242 l3 -2" fill="none" stroke="#6b5444" stroke-width="1.1" stroke-linecap="round" opacity=".45"/>
 
     <!-- Armen som henger ned (svinger når han faller) -->
     <g id="arm">
-      <path d="M330 342 L336 396 L338 442" fill="none" stroke="#1f2328" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M330 342 L336 396 L338 442" fill="none" stroke="#f2c4a0" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="o skin" cx="339" cy="450" r="14"/>
-      <path class="ln" d="M332 456 v6 M340 458 v6" stroke-width="3"/>
+      <path class="p" d="M315 344 C316 368 320 386 324 398 C326 414 328 428 330 442 L346 442 C348 428 349 412 348 396 C348 382 346 362 345 344 A15 15 0 0 0 315 344 Z" fill="url(#p-hud)"/>
+      <path d="M342 350 C344 370 344 386 343 398 C344 414 343 428 342 440" fill="none" stroke="#c98a68" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+      <path class="pl" d="M326 396 q6 3 12 1" stroke-width="1.5" opacity=".5"/>
+      <path class="p" d="M329 439 C325 450 325 461 329 470 C332 476 336 476 338 470 L340 474 C343 479 348 477 348 470 C351 460 350 450 347 439 Z" fill="url(#p-hud)" stroke-width="2.6"/>
+      <path class="p" d="M329 446 C322 451 321 460 324 465 C327 468 330 465 330 460" fill="url(#p-hud)" stroke-width="2.2"/>
+      <path class="pl" d="M335 461 v9 M341.5 462 v9" stroke-width="1.6"/>
     </g>
 
     <!-- Zzz -->
@@ -391,10 +508,16 @@
 
   <!-- Ølboksen (uten merke) -->
   <g id="beer">
-    <rect class="o" x="396" y="198" width="34" height="60" rx="6" fill="#c9cdd3"/>
-    <rect x="398" y="214" width="30" height="28" fill="#e0a526"/>
-    <path d="M404 222 h18 M404 232 h12" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
-    <ellipse class="o" cx="413" cy="200" rx="15" ry="4" fill="#e3e6ea" stroke-width="3"/>
+    <rect class="p" x="396" y="198" width="34" height="60" rx="5" fill="url(#p-boks)"/>
+    <rect x="397.5" y="213" width="31" height="30" fill="url(#p-etikett)"/>
+    <path d="M397.5 213 h31 M397.5 243 h31" stroke="#1f2328" stroke-width="1.3" opacity=".45"/>
+    <path d="M404 222 h16 M404 230 h10" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".75"/>
+    <rect x="402" y="203" width="3.5" height="51" rx="1.75" fill="#fff" opacity=".55"/>
+    <g fill="#fff" opacity=".7"><circle cx="424" cy="207" r="1.2"/><circle cx="420" cy="249" r="1"/><circle cx="426" cy="236" r="1.1"/><circle cx="409" cy="248" r=".9"/></g>
+    <path d="M398 252 q15 5 30 0" fill="none" stroke="#7d838b" stroke-width="1.4"/>
+    <ellipse class="p" cx="413" cy="200" rx="15" ry="4" fill="#d9dde2" stroke-width="2.6"/>
+    <path d="M408 199.5 q4 -3 9 0" fill="none" stroke="#7d838b" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="410" cy="200.5" rx="2.4" ry="1" fill="#3b3f45"/>
     <!-- Norsk flagg (bare 17. mai) -->
     <g id="flag" style="display:none">
       <path d="M416 202 L424 140" stroke="#6b4f2a" stroke-width="3" stroke-linecap="round"/>
@@ -406,10 +529,15 @@
     </g>
   </g>
 
-  <!-- Fingrene rundt boksen -->
+  <!-- Hånda rundt boksen: tommel opp og fire fingre foran -->
   <g id="grip">
-    <rect class="o skin" x="392" y="238" width="40" height="26" rx="12"/>
-    <path class="ln" d="M405 242 v12 M418 242 v12" stroke-width="3"/>
+    <path class="p" d="M399 240 C393 233 392 222 397 217 C401 214 405 218 405 224 L404 240 Z" fill="url(#p-hud)" stroke-width="2.4"/>
+    <path d="M398.5 221 q2 -3 4.5 -1" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>
+    <rect class="p" x="396" y="255" width="35" height="9" rx="4.5" fill="url(#p-hud)" stroke-width="2.2"/>
+    <rect class="p" x="396" y="247.5" width="36" height="9" rx="4.5" fill="url(#p-hud)" stroke-width="2.2"/>
+    <rect class="p" x="396" y="240" width="36" height="9" rx="4.5" fill="url(#p-hud)" stroke-width="2.2"/>
+    <rect class="p" x="396" y="232.5" width="35" height="9" rx="4.5" fill="url(#p-hud)" stroke-width="2.2"/>
+    <path class="pl" d="M411 234.5 v5 M411 242 v5 M411 249.5 v5 M411 257 v5 M422 234.5 v5 M422 242 v5 M422 249.5 v5 M422 257 v5" stroke-width="1.2" opacity=".5"/>
   </g>
 
   <!-- Natt: rommet mørkner, TV-en lyser ham opp -->
