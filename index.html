@@ -8,6 +8,18 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://slabbedask.no/">
+  <meta property="og:title" content="Slabbedask">
+  <meta property="og:description" content="Velkommen din forbanna slabbedask! Bla nedover. Han ligger der uansett.">
+  <meta property="og:image" content="https://slabbedask.no/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="En slabbedask som sover på en gul sofa med en øl i hånda">
+  <meta property="og:locale" content="nb_NO">
+  <meta name="twitter:card" content="summary_large_image">
   <style>
     :root {
       --bg: #fafaf7;
@@ -68,14 +80,29 @@
     /* Tom plass mellom lappene, så man ser ham falle ut av sofaen */
     .scroll-room { height: 55vh; }
 
-    header { padding: 64px 0 32px; }
+    header { padding: 64px 0 32px; min-height: calc(100vh - 76px); min-height: calc(100svh - 76px); }
+    main > .scroll-room:first-child { display: none; }
+    /* Skyggen bak teksten gjør at lampeledningen og stua ikke skjærer gjennom bokstavene */
+    .lead, .under { text-shadow: 0 0 6px var(--bg), 0 0 14px var(--bg), 0 0 2px var(--bg); }
     h1.logo { margin: 0 0 16px; line-height: 0; }
     h1.logo img { height: 56px; width: auto; max-width: 100%; }
     .lead { font-size: clamp(1.6rem, 5vw, 2.3rem); font-weight: 800; line-height: 1.15; margin: 0; }
     .under { color: var(--muted); font-size: 1.05rem; margin: 12px 0 0; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    footer { padding: 12px 0; color: var(--muted); font-size: 0.85rem; text-align: center; }
+    footer {
+      width: fit-content; max-width: 100%; margin: 0 auto 14px; padding: 8px 16px;
+      color: var(--muted); font-size: 0.85rem; text-align: center;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 10px;
+    }
+    footer a { text-decoration: underline; text-underline-offset: 2px; }
+    .lenkeknapp {
+      font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer;
+      text-decoration: underline; text-underline-offset: 2px;
+    }
+    .lenkeknapp:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
     /* Lappene med innhold */
     .lapp {
@@ -120,6 +147,20 @@
       scroll-snap-type: x mandatory;
       margin: 0 -24px; padding: 4px 24px 12px;
     }
+    .rad-boks { position: relative; }
+    .rad { --v: 0px; --h: 40px; mask-image: linear-gradient(90deg, transparent, #000 var(--v), #000 calc(100% - var(--h)), transparent); }
+    .rad.ikke-start { --v: 40px; }
+    .rad.slutt { --h: 0px; }
+    .pil {
+      position: absolute; top: 58px; z-index: 1; width: 38px; height: 38px; border-radius: 50%;
+      display: grid; place-items: center; padding: 0; cursor: pointer; font-size: 1.2rem; font-weight: 800;
+      background: var(--sofa); color: #1f2328; border: 2px solid #1f2328; box-shadow: 0 2px 0 #1f2328;
+      transition: opacity .2s;
+    }
+    .pil.venstre { left: -14px; } .pil.hoyre { right: -14px; }
+    .pil:disabled { opacity: 0; pointer-events: none; }
+    .pil:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (hover: none) { .pil { display: none; } }
     .kjendis {
       flex: 0 0 200px; scroll-snap-align: start;
       border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
@@ -175,6 +216,14 @@
       transition: transform .35s;
     }
     .boble.vis { transform: translate(-50%, 0); }
+
+    @media (max-height: 520px) and (orientation: landscape) {
+      header { padding: 14px 56px 0 84px; } /* plass til merke- og lydknappen */
+      h1.logo { margin-bottom: 8px; }
+      h1.logo img { height: 44px; }
+      .lead { font-size: 1.45rem; }
+      #scene { height: 56vh; }
+    }
 
     /* Påskeegg */
     header, .lapp { position: relative; }
@@ -268,6 +317,7 @@
       <p class="under">Bla nedover. Han ligger der uansett.</p>
       <button class="gjemt-chips" data-nr="1" type="button" aria-label="Et chips" style="right: 4px; bottom: 6px; --r: -25deg"></button>
     </header>
+    <main>
 
     <div class="scroll-room" aria-hidden="true"></div>
 
@@ -305,6 +355,9 @@
     <section class="lapp" aria-labelledby="kjente">
       <h2 id="kjente">Kjente slabbedasker</h2>
       <p class="liten">Bla sidelengs. Ingen av dem har gitt samtykke, men ingen av dem har svart på meldingen heller.</p>
+      <div class="rad-boks">
+      <button class="pil venstre" type="button" aria-label="Forrige slabbedask" disabled>‹</button>
+      <button class="pil hoyre" type="button" aria-label="Neste slabbedask">›</button>
       <div class="rad" tabindex="0" aria-label="Kjente slabbedasker, bla sidelengs">
         <article class="kjendis">
           <svg viewBox="0 0 200 110" aria-hidden="true">
@@ -369,6 +422,7 @@
           <button class="gjemt-chips" data-nr="4" type="button" aria-label="Et chips" style="right: 8px; top: 8px; --r: 70deg"></button>
         </article>
       </div>
+      </div>
     </section>
 
     <div class="scroll-room" aria-hidden="true"></div>
@@ -399,9 +453,13 @@
     </section>
 
     <div class="scroll-room" aria-hidden="true"></div>
+    </main>
 
     <footer>
-      © <span id="year"></span> Slabbedask <button class="gjemt-chips" data-nr="5" type="button" aria-label="Et chips" style="--r: -40deg"></button> · <a href="/bakside.html" class="snu">Snu sofaen ↻</a>
+      <span>© <span id="year"></span> Slabbedask <button class="gjemt-chips" data-nr="5" type="button" aria-label="Et chips" style="--r: -40deg"></button></span>
+      <button class="lenkeknapp opp" type="button">↑ Opp i sofaen igjen</button>
+      <button class="lenkeknapp del" type="button">Send til en slabbedask</button>
+      <a href="/bakside.html" class="snu">Snu sofaen ↻</a>
     </footer>
   </div>
   <script>

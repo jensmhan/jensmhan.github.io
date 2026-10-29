@@ -297,6 +297,41 @@
     }, 3200);
   }
 
+  // ---------------- Kjente slabbedasker: piler og myke kanter ----------------
+  const rad = $(".rad"), venstre = $(".pil.venstre"), hoyre = $(".pil.hoyre");
+  const kanter = () => {
+    const slutt = rad.scrollLeft + rad.clientWidth >= rad.scrollWidth - 4;
+    rad.classList.toggle("ikke-start", rad.scrollLeft > 4);
+    rad.classList.toggle("slutt", slutt);
+    venstre.disabled = rad.scrollLeft <= 4;
+    hoyre.disabled = slutt;
+  };
+  const bla = (retning) => rad.scrollBy({ left: retning * 212, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  venstre.addEventListener("click", () => bla(-1));
+  hoyre.addEventListener("click", () => bla(1));
+  rad.addEventListener("scroll", kanter, { passive: true });
+  addEventListener("resize", kanter);
+  kanter();
+
+  // ---------------- Footer: opp igjen og del ----------------
+  $(".opp").addEventListener("click", () => {
+    scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    S.melding("Opp i sofaen!", "Han klatrer. Sakte.");
+  });
+  $(".del").addEventListener("click", async () => {
+    const data = { title: "Slabbedask", text: "Velkommen din forbanna slabbedask!", url: "https://slabbedask.no/" };
+    if (navigator.share) {
+      try { await navigator.share(data); } catch {} // avbrutt er også greit
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(data.url);
+      S.melding("Lenka er kopiert!", "Lim den inn hos en slabbedask du kjenner.");
+    } catch {
+      S.melding("slabbedask.no", "Fikk ikke kopiert. Du får si det høyt.");
+    }
+  });
+
   // ---------------- Hemmelige ord ----------------
   const hemmelig = (fn) => () => { fn(); S.merke("hemmelig"); };
   S.ord("øl", hemmelig(() => { S.regn("øl", 30); S.lyd("pssht"); S.melding("Skål!", "Noen må rydde dette. Ikke vi."); }));

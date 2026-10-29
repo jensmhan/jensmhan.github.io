@@ -29,6 +29,7 @@ window.slabbe = (() => {
     { id: "unnskyldning", navn: "Unnskyldningskunstner", hint: "Lag deg noen gode unnskyldninger.", tekst: "Ti unnskyldninger. Du er dekket ut året." },
     { id: "kundeservice", navn: "Tålmodig kunde", hint: "Kundeservice svarer. Til slutt.", tekst: "Sendte ti meldinger. Fikk ingen hjelp. Som forventet." },
     { id: "stovdott", navn: "Støvdottvenn", hint: "Noe lever under sofaen.", tekst: "Klappet støvdotten. Den heter Bjarne." },
+    { id: "borte", navn: "Gått seg vill", hint: "Prøv en adresse som ikke finnes.", tekst: "Fant en side som ikke finnes. Den lå under sofaen." },
   ];
 
   const les = (k, fallback) => { try { const v = localStorage.getItem(k); return v === null ? fallback : JSON.parse(v); } catch { return fallback; } };
@@ -50,8 +51,9 @@ window.slabbe = (() => {
     .slabbe-knapp-merker.ny { animation: slabbe-hopp .6s ease-out 2; }
     @keyframes slabbe-hopp { 30% { transform: translateY(-8px) rotate(-8deg); } 60% { transform: translateY(0) rotate(4deg); } }
 
-    .slabbe-toasts { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 6;
-      display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: calc(100vw - 32px); max-width: 420px; }
+    .slabbe-toasts { position: fixed; inset: auto auto 16px 50%; transform: translateX(-50%); z-index: 6;
+      display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: calc(100vw - 32px); max-width: 420px;
+      margin: 0; padding: 0; border: 0; background: none; overflow: visible; color: inherit; }
     .slabbe-toast {
       background: #fff; color: #1f2328; border: 3px solid #1f2328; border-radius: 14px;
       padding: 8px 14px; font-weight: 700; box-shadow: 0 4px 0 #1f2328; text-align: center;
@@ -59,6 +61,7 @@ window.slabbe = (() => {
     }
     .slabbe-toast small { display: block; font-weight: 500; color: #5c6370; }
     .slabbe-toast.merke { background: #facc15; }
+    .slabbe-toast.merke small { color: #4a3f1c; }
     .slabbe-toast.ut { animation: slabbe-ut .3s ease-in both; }
     @keyframes slabbe-inn { from { transform: translateY(30px) scale(.9); opacity: 0; } }
     @keyframes slabbe-ut { to { transform: translateY(20px); opacity: 0; } }
@@ -159,6 +162,7 @@ window.slabbe = (() => {
   toasts.className = "slabbe-toasts";
   toasts.setAttribute("role", "status");
   toasts.setAttribute("aria-live", "polite");
+  if ("popover" in HTMLElement.prototype) toasts.popover = "manual";
   function melding(tekst, under = "", klasse = "", ms = 3200) {
     const t = document.createElement("div");
     t.className = "slabbe-toast " + klasse;
@@ -166,6 +170,8 @@ window.slabbe = (() => {
     if (under) { const s = document.createElement("small"); s.textContent = under; t.append(s); }
     toasts.append(t);
     while (toasts.children.length > 3) toasts.firstChild.remove();
+    // Legg meldingene øverst, også over en åpen dialog (popover havner i det øverste laget)
+    if (toasts.showPopover) { try { toasts.hidePopover(); } catch {} try { toasts.showPopover(); } catch {} }
     setTimeout(() => { t.classList.add("ut"); setTimeout(() => t.remove(), 320); }, ms);
   }
 

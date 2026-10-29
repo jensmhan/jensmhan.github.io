@@ -8,6 +8,16 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#26211c">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://slabbedask.no/bakside.html">
+  <meta property="og:title" content="Under sofaen – Slabbedask">
+  <meta property="og:description" content="Grav i sofaputene, fang ølen og få deg en unnskyldning. Baksiden av slabbedask.no.">
+  <meta property="og:image" content="https://slabbedask.no/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="nb_NO">
+  <meta name="twitter:card" content="summary_large_image">
   <style>
     /* Under sofaen er det mørkt uansett */
     :root {
@@ -93,7 +103,7 @@
 
     /* Spillet */
     .spill { position: relative; margin-top: 12px; border-radius: 12px; overflow: hidden; border: 2px solid #1f2328; }
-    .spill canvas { display: block; width: 100%; height: 380px; touch-action: none; background: var(--scene-floor); }
+    .spill canvas { display: block; width: 100%; height: clamp(320px, 58vh, 420px); touch-action: none; background: var(--scene-floor); }
     .spill .over {
       position: absolute; inset: 0; display: grid; place-items: center; text-align: center;
       background: rgba(20, 17, 14, .82); padding: 16px;
@@ -138,6 +148,7 @@
     @keyframes flykt { 30% { transform: scale(.6, 1.3) translateY(-10px); } }
 
     footer { padding: 12px 0 40px; color: var(--muted); font-size: .85rem; text-align: center; }
+    footer a { text-underline-offset: 2px; }
 
     /* Lydknappen (samme som forsiden) */
     .lyd {
@@ -189,6 +200,7 @@
       <p>Her havner alt som forsvinner. Mynter, sokker, fjernkontrollen. Og nå deg.</p>
       <a class="snu-tilbake" href="/">↻ Snu sofaen tilbake</a>
     </header>
+    <main>
 
     <section class="lapp" aria-labelledby="puter-tittel">
       <h2 id="puter-tittel">Grav i sofaputene</h2>
@@ -255,6 +267,8 @@
         <button class="knapp" type="submit">Send</button>
       </form>
     </section>
+
+    </main>
 
     <footer>
       Du er på baksiden av <a href="/">slabbedask.no</a>. Den er like rotete som forsiden.
@@ -340,7 +354,15 @@
 
     // ---------------- Fang ølen ----------------
     const cv = $(".spill canvas"), g = cv.getContext("2d"), over = $(".spill .over");
-    const W = cv.width, H = cv.height, SOFA_W = 110;
+    const SOFA_W = 110;
+    let W = 680, H = 380;
+    function tilpass() {
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      W = cv.clientWidth || 680; H = cv.clientHeight || 380;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (spiller !== undefined) { spiller = Math.max(SOFA_W / 2, Math.min(W - SOFA_W / 2, spiller)); if (!kjorer) tegn(); }
+    }
     let rekord = S.les("slabbe-rekord", 0);
     $(".rekord").textContent = `Rekord: ${rekord}`;
     let spiller, ting, poeng, liv, fart, neste, sist, kjorer = false, taster = {};
@@ -445,6 +467,8 @@
     });
     addEventListener("keyup", (e) => { taster[e.key] = false; });
     document.addEventListener("visibilitychange", () => { if (document.hidden && kjorer) { liv = 0; } });
+    tilpass();
+    new ResizeObserver(tilpass).observe(cv);
     spiller = W / 2; ting = []; poeng = 0; liv = 3; tegn();
 
     // ---------------- Unnskyldninger ----------------

@@ -155,14 +155,31 @@ window.slabbeLyd = (() => {
   };
 })();
 
-// Høyttalerknappen
+// Høyttalerknappen. Valget huskes til neste gang, men nettleseren lar oss ikke
+// starte lyd før man har trykket på noe, så da slås den på ved første trykk.
 (() => {
   const btn = document.getElementById("lyd");
   if (!btn) return;
-  btn.addEventListener("click", async () => {
-    const on = await window.slabbeLyd.toggle();
+  const vis = (on) => {
     btn.classList.toggle("on", on);
     btn.setAttribute("aria-pressed", String(on));
     btn.setAttribute("aria-label", on ? "Slå av lyd" : "Slå på lyd");
+  };
+  btn.addEventListener("click", async () => {
+    const on = await window.slabbeLyd.toggle();
+    vis(on);
+    try { localStorage.setItem("slabbe-lyd", on ? "på" : "av"); } catch {}
   });
+
+  let lagret = null;
+  try { lagret = localStorage.getItem("slabbe-lyd"); } catch {}
+  if (lagret !== "på") return;
+  const hendelser = ["pointerup", "keydown"];
+  const slutt = () => hendelser.forEach((t) => removeEventListener(t, start, true));
+  async function start(e) {
+    slutt();
+    if (e.target.closest && e.target.closest("#lyd")) return; // knappen tar seg av det selv
+    if (!window.slabbeLyd.on) vis(await window.slabbeLyd.toggle());
+  }
+  hendelser.forEach((t) => addEventListener(t, start, true));
 })();
