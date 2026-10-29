@@ -29,6 +29,7 @@ window.slabbe = (() => {
     { id: "unnskyldning", navn: "Unnskyldningskunstner", hint: "Lag deg noen gode unnskyldninger.", tekst: "Ti unnskyldninger. Du er dekket ut året." },
     { id: "kundeservice", navn: "Tålmodig kunde", hint: "Kundeservice svarer. Til slutt.", tekst: "Sendte ti meldinger. Fikk ingen hjelp. Som forventet." },
     { id: "stovdott", navn: "Støvdottvenn", hint: "Noe lever under sofaen.", tekst: "Klappet støvdotten. Den heter Bjarne." },
+    { id: "konge", navn: "Kongelig", hint: "Kongen drikker aldri alene. Pirk på ølen hans.", tekst: "Kom inn i kjøleskapet. Lenge leve kongen!" },
     { id: "borte", navn: "Gått seg vill", hint: "Prøv en adresse som ikke finnes.", tekst: "Fant en side som ikke finnes. Den lå under sofaen." },
   ];
 

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kongens kjøleskap – Slabbedask</title>
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Låst. Kun for kongelige.">
+  <meta name="theme-color" content="#10141c">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    /* Kjøkkenet om natta. Bare kjøleskapslyset er på. */
+    :root {
+      --bg: #10141c;
+      --kort: #181e2a;
+      --text: #eef1f6;
+      --muted: #a3acbb;
+      --accent: #f5c542;
+      --border: #2b3446;
+      --sofa: #facc15;
+      --sofa-dark: #eab308;
+      --gull: #f5c542;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      background-image: radial-gradient(ellipse 60% 40% at 50% 30%, rgba(160, 200, 255, .08), transparent 70%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+    a { color: var(--accent); text-underline-offset: 2px; }
+    header { padding: 76px 0 8px; text-align: center; }
+    header h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.8rem); line-height: 1.1; font-weight: 900; }
+    header p { margin: 8px 0 0; color: var(--muted); }
+
+    /* ---------------- Kjøleskapet ---------------- */
+    .kjoleskap { position: relative; width: min(240px, 62vw); aspect-ratio: 2 / 3; margin: 28px auto 0; perspective: 900px; }
+    .kjoleskap > svg, .dor svg { display: block; width: 100%; height: 100%; }
+    .innside { position: absolute; inset: 0; }
+    .lys { position: absolute; inset: -40%; background: radial-gradient(circle, rgba(255, 246, 200, .45), transparent 60%); opacity: 0; transition: opacity .8s .2s; pointer-events: none; }
+    .dor {
+      position: absolute; inset: 0; transform-origin: 4% 50%;
+      transition: transform 1s cubic-bezier(.3, .1, .2, 1); transform-style: preserve-3d;
+    }
+    .apen .dor { transform: rotateY(-118deg); }
+    .apen .lys { opacity: 1; }
+    .riste { animation: riste .45s ease-in-out; }
+    @keyframes riste { 20%, 60% { transform: translateX(-8px) rotate(-1.5deg); } 40%, 80% { transform: translateX(8px) rotate(1.5deg); } }
+    .taake { position: absolute; left: 50%; bottom: 10%; width: 90px; height: 50px; border-radius: 50%; background: rgba(230, 240, 255, .5); filter: blur(14px); opacity: 0; pointer-events: none; }
+    .apen .taake { animation: taake 3.2s ease-out forwards; }
+    .apen .taake:nth-child(2) { animation-delay: .4s; } .apen .taake:nth-child(3) { animation-delay: .8s; }
+    @keyframes taake {
+      0% { opacity: 0; transform: translate(-50%, 0) scale(.6); }
+      25% { opacity: .9; }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--x, 60px)), 40px) scale(2.4); }
+    }
+
+    /* ---------------- Passordet ---------------- */
+    .port { text-align: center; padding-bottom: 32px; overflow: hidden; } /* lyset og tåka skal ikke gi sideveis blaing */
+    .las { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; max-width: 420px; margin: 28px auto 0; }
+    .las input {
+      flex: 1 1 200px; min-width: 0; font: inherit; font-size: 1.05rem; padding: 10px 16px; border-radius: 999px;
+      border: 2px solid var(--border); background: var(--kort); color: var(--text); text-align: center; letter-spacing: .08em;
+    }
+    .las input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .svar { min-height: 1.6em; margin: 12px 0 0; font-weight: 600; color: var(--muted); }
+    .svar.feil { color: #ff9d8f; }
+    .svar.riktig { color: var(--gull); }
+
+    .knapp {
+      font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block;
+      padding: 10px 22px; border-radius: 999px;
+      border: 2px solid #1f2328; background: var(--sofa); color: #1f2328;
+    }
+    .knapp:hover { background: var(--sofa-dark); }
+    .knapp.nei { background: var(--kort); color: var(--text); border-color: var(--border); }
+    .knapp:focus-visible, .bryter input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ---------------- Hallen (vises når kjøleskapet er åpnet) ---------------- */
+    #hallen[hidden] { display: none; }
+    #hallen { animation: frem .8s ease-out both; }
+    @keyframes frem { from { opacity: 0; transform: translateY(30px); } }
+    .lapp {
+      background: var(--kort); border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .4); padding: 24px; margin-bottom: 28px;
+    }
+    .lapp h2 { margin: 0 0 10px; font-size: 1.5rem; line-height: 1.2; }
+    .lapp p { margin: 0 0 12px; } .lapp p:last-child { margin-bottom: 0; }
+    .liten { color: var(--muted); font-size: .9rem; }
+    .gull { text-align: center; border-color: #8a6d1f; background: linear-gradient(#1f2433, #181e2a); }
+    .gull h2 { color: var(--gull); font-size: clamp(1.6rem, 6vw, 2.2rem); }
+    .trone { display: block; width: min(400px, 100%); height: auto; margin: 0 auto 8px; }
+    .dekreter, .trinn { margin: 0; padding-left: 1.6em; }
+    .dekreter li, .trinn li { margin-bottom: 8px; }
+    .dekreter li::marker { color: var(--gull); font-weight: 800; }
+    .trinn li::marker { color: var(--gull); font-weight: 800; }
+
+    .tappested { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+    .tappested > div { flex: 1 1 200px; }
+    .glass { width: 120px; height: 180px; flex: 0 0 auto; }
+    .glass .ol, .glass .skum { transition: y .08s linear; }
+    .tapp { user-select: none; -webkit-user-select: none; touch-action: none; }
+    .tapp.tapper { background: var(--sofa-dark); transform: translateY(2px); }
+    .tapp-svar { font-weight: 700; min-height: 1.6em; margin: 12px 0 4px; }
+    .glass .sol.renner { animation: sol .5s ease-in infinite; }
+    @keyframes sol { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(40px); } }
+
+    .bryter { display: inline-flex; gap: 10px; align-items: center; cursor: pointer; font-weight: 700; margin-top: 4px; }
+    .bryter input { width: 22px; height: 22px; accent-color: var(--gull); }
+
+    .tilbake { text-align: center; margin: 8px 0 24px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    footer { padding: 12px 0 40px; color: var(--muted); font-size: .85rem; text-align: center; }
+
+    /* Lydknappen (samme som de andre sidene) */
+    .lyd {
+      position: fixed; top: 16px; right: 16px; z-index: 2;
+      width: 44px; height: 44px; border-radius: 50%;
+      display: grid; place-items: center; padding: 0;
+      background: var(--kort); color: var(--text);
+      border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0, 0, 0, .3); cursor: pointer;
+    }
+    .lyd .paa, .lyd.on .av { display: none; }
+    .lyd.on .paa { display: inline; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dor { transition-duration: .01s; }
+      .riste, .apen .taake, #hallen, .glass .sol.renner { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <button id="lyd" class="lyd" type="button" aria-pressed="false" aria-label="Slå på lyd" title="Lyd">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M3 9h4l5-4v14l-5-4H3z" fill="currentColor"/>
+      <path class="av" d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path class="paa" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <div class="wrap">
+    <header>
+      <h1>Kongens kjøleskap</h1>
+      <p>Låst. Kun for kongelige, og folk som kan passordet.</p>
+    </header>
+
+    <main>
+      <section class="port" aria-label="Kjøleskapet">
+        <div class="kjoleskap">
+          <!-- Innsiden: lys, hyller og kongens øl -->
+          <div class="innside">
+            <div class="lys"></div>
+            <svg viewBox="0 0 240 360" aria-hidden="true">
+              <rect x="10" y="8" width="220" height="344" rx="20" fill="#d7dde6" stroke="#1f2328" stroke-width="5"/>
+              <rect x="22" y="20" width="196" height="320" rx="12" fill="#fdf6d8"/>
+              <path d="M22 116 H218 M22 210 H218 M22 290 H218" stroke="#c9ced6" stroke-width="5"/>
+              <!-- Krone øverst -->
+              <g transform="translate(120 82)" stroke="#1f2328" stroke-width="3" stroke-linejoin="round">
+                <path d="M-26 16 L-30 -12 L-14 0 L0 -20 L14 0 L30 -12 L26 16 Q0 22 -26 16 Z" fill="#f5c542"/>
+                <circle cx="-12" cy="8" r="3" fill="#c0392b" stroke-width="1.5"/><circle cx="0" cy="10" r="3" fill="#2563eb" stroke-width="1.5"/><circle cx="12" cy="8" r="3" fill="#2ecc71" stroke-width="1.5"/>
+              </g>
+              <!-- Gullbokser -->
+              <g stroke="#1f2328" stroke-width="2.5">
+                <rect x="40" y="150" width="26" height="56" rx="5" fill="#f5c542"/><rect x="76" y="150" width="26" height="56" rx="5" fill="#f5c542"/>
+                <rect x="112" y="150" width="26" height="56" rx="5" fill="#f5c542"/><rect x="148" y="150" width="26" height="56" rx="5" fill="#f5c542"/>
+                <rect x="184" y="150" width="22" height="56" rx="5" fill="#f5c542"/>
+                <rect x="40" y="232" width="26" height="54" rx="5" fill="#f5c542"/><rect x="76" y="232" width="26" height="54" rx="5" fill="#f5c542"/>
+                <rect x="112" y="232" width="26" height="54" rx="5" fill="#f5c542"/>
+              </g>
+              <path d="M44 166 h18 M80 166 h18 M116 166 h18 M152 166 h18 M44 248 h18 M80 248 h18 M116 248 h18" stroke="#b07d12" stroke-width="3"/>
+              <!-- Én ensom brokkoli, i karantene -->
+              <g transform="translate(176 262)"><rect x="-3" y="2" width="6" height="16" fill="#3f9b4f" stroke="#1f2328" stroke-width="2"/><circle cx="-7" cy="0" r="7" fill="#2f8a3f" stroke="#1f2328" stroke-width="2"/><circle cx="7" cy="0" r="7" fill="#2f8a3f" stroke="#1f2328" stroke-width="2"/><circle cx="0" cy="-7" r="7" fill="#2f8a3f" stroke="#1f2328" stroke-width="2"/></g>
+              <path d="M22 300 H218 V328 Q218 340 206 340 H34 Q22 340 22 328 Z" fill="#e9eef4"/>
+            </svg>
+          </div>
+          <!-- Døra -->
+          <div class="dor">
+            <svg viewBox="0 0 240 360" aria-hidden="true">
+              <rect x="10" y="8" width="220" height="344" rx="20" fill="#eef1f5" stroke="#1f2328" stroke-width="5"/>
+              <path d="M10 118 H230" stroke="#1f2328" stroke-width="4"/>
+              <path d="M24 22 Q30 16 40 16" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <rect x="196" y="40" width="12" height="54" rx="6" fill="#c9ced6" stroke="#1f2328" stroke-width="3"/>
+              <rect x="196" y="140" width="12" height="96" rx="6" fill="#c9ced6" stroke="#1f2328" stroke-width="3"/>
+              <!-- Hengelås -->
+              <g transform="translate(202 250)">
+                <path d="M-10 0 V-12 A10 10 0 0 1 10 -12 V0" fill="none" stroke="#1f2328" stroke-width="5"/>
+                <path d="M-10 0 V-12 A10 10 0 0 1 10 -12 V0" fill="none" stroke="#9aa1ab" stroke-width="2.5"/>
+                <rect x="-15" y="-2" width="30" height="26" rx="5" fill="#f5c542" stroke="#1f2328" stroke-width="3"/>
+                <circle cx="0" cy="8" r="3" fill="#1f2328"/><rect x="-1.5" y="9" width="3" height="8" fill="#1f2328"/>
+              </g>
+              <!-- Lapp og magneter -->
+              <g transform="rotate(-5 90 200)">
+                <rect x="40" y="160" width="104" height="70" rx="3" fill="#fffbea" stroke="#1f2328" stroke-width="2.5"/>
+                <text x="92" y="186" text-anchor="middle" style="font: 900 15px system-ui, sans-serif" fill="#1f2328">KUN FOR</text>
+                <text x="92" y="208" text-anchor="middle" style="font: 900 15px system-ui, sans-serif" fill="#c0392b">KONGEN</text>
+                <circle cx="92" cy="160" r="6" fill="#e74c3c" stroke="#1f2328" stroke-width="2"/>
+              </g>
+              <g style="font: 900 26px system-ui, sans-serif" stroke="#1f2328" stroke-width="1.5">
+                <text x="44" y="292" fill="#2563eb" transform="rotate(-8 52 284)">Ø</text>
+                <text x="72" y="296" fill="#2ecc71" transform="rotate(6 80 288)">L</text>
+                <text x="98" y="290" fill="#e74c3c" transform="rotate(-4 106 282)">?</text>
+              </g>
+              <circle cx="60" cy="64" r="9" fill="#f5c542" stroke="#1f2328" stroke-width="2.5"/>
+              <path d="M56 64 h8 M60 60 v8" stroke="#1f2328" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="taake" style="--x: 70px"></div><div class="taake" style="--x: -60px"></div><div class="taake" style="--x: 20px"></div>
+        </div>
+
+        <form class="las" autocomplete="off">
+          <input type="password" name="passord" placeholder="Passord" aria-label="Passord" autocomplete="off" autocapitalize="off" spellcheck="false" required>
+          <button class="knapp" type="submit">Lås opp</button>
+        </form>
+        <p class="svar" aria-live="polite"></p>
+      </section>
+
+      <!-- Hallen er kryptert med passordet og pakkes ut her når kjøleskapet åpnes -->
+      <div id="hallen" hidden></div>
+      <div class="tilbake" hidden>
+        <a class="knapp" href="/">Tilbake til sofaen</a>
+        <button class="knapp nei las-igjen" type="button">Lås kjøleskapet igjen</button>
+      </div>
+    </main>
+
+    <footer>Kongen ser deg. Han gidder bare ikke å snu hodet.</footer>
+  </div>
+
+  <script type="application/json" id="hvelv">{"s":"JQHWB6YC05CRn1vQoJgrCw==","i":"GK+nLCn6kqjAcGeS","d":"4Oa3C6KsyLFwLjSXiCtTCeUes4gFqp1xSxJhkfuw7wmXK51E54WwFKcXCgtgXKne6zmzmh3NoBMzUCQby0mpaLKMrduhi8UeY6dSpQy117AkvRQ96c4b0LjqBgG/OI4i/vUbQbwgqhi4JCzXpJezDvUTyqGVBAAHDvtIHySiGPFqd6fzG4nG4zg3DQAIISP8xwvK9LOlX3lbsORawxokELA7+nte2AX4pSlypsRAWeetm62yhVZ4S55+WCcT52N9farvuvyE5bA1uQtaA3s+lTRIDFIDuKt1n2JbMzw/XqnnUPLByMf1trpRPKtmlOjbYAkYT2eZTIGOzp/pXRbL3oCQzfCVOYy597JyekdL63cSVpJnHvqxB7vbQJ1qpIngFjgwKvoHg2HMHXoBS8Qt3EjhZjpXETxgQWa4w0U17LqmFLTzijCGkrn0zUWD4/OL645LDqpTjMGvBffei0Qdm6U0cp7DIEv7/yNQtswa8MZKxm29UAPhGwZdlc69ZaF4GQecuZLlRi5oWUOpnWKcI0IijZ/LBe05Q9x4fIeubj7RwxOHxxnGIJEd0UzArKu5TECaXS8+1kMq6hjU/fAILBfN3fUjaE1vXDkLRR2LyK6VidESUIVl3X/P0cUp3pJwsy2Oj1WsCpXcxJtTIaHOG8o2FX67NOgbDtb1GOMZbDbXS+VwbYuyMAz/WwVm8TAXAJ6lmNSyRG9HHzhbK6g5KZ4j7afyaCAFLjEkR7j2bqQqQ4kVKBe7dufx/2kDxQm+yfGHFrExnrfw7AicBwe3Mx/kH36PJ5xtWSA1/20uE0yW2USam+DhwK8UrPZ6szmjC6B32+WnHVM4Q3ztOuQUSae9Rm+l/fT50DWRTjClbtz0R73iT84jqFXOWfxZlSggn6m5tyg+cHlvVW9giApR0LvfDepxIHPO/mi/2+t/C4VRc9R2i6I+YXUxsHAnBVnBXanL4wPoXXUz/JkzVmjMHUYx8PJ+XORDGbNTaQ/+8QBoTmETfLs2U4FaPgvQJ2168nznT9th6KAfQ1ixb2mqzKME7wk2zixd5t0SYbcFjMKxmX2KyFqN08/L6cEOfIsVxy/2Usn8uvu6GScKqF5eQ29pr3QHbIQyKRNx7ylCuQk2l0mddNuqTdy7G5GBmb7apgnTGsizepk4pEPFNXZCRuQsZoYwEJbz5M/rYp0V1yKmS9ZeRRIo1g0d9J4yyqxMrtSbfVTGdhhneF9uumvOnchhZi2cGn8Mj2zyaYm7Eea/KUFvCB8VjWibbFHHxM/DuoA/5rrj01MbYJ7rSlVJs75REyy/B6h8PULLXt3olnom2l49LuIoaSupMsZVJfXz/RzD/Cac3kjeI/hU4QX13XFzLEHIC4ut1niLq8za3Dik8T2u5sxSb9/nZlhN/LFnJNef/TIdkaWQrckAKKbl5ndaqQIpUsXhzjPmlciolbJk5pir+6B0nixEZtZQPBW3zPAzyJqH3DCafs+BGsD6/slk5nTKHwqTESkhTSUqFLEyTioNkM4F37W+J7mbCIedi8Xk7GuUKEAspHsVxqopfv9fzsi39INgpmMXqWYJms0CpP7ucMdtF/iusIGkIA7X+uMzfBzLnDjPzBRIoZGCXFgcp3yHYtP9vvzYlSmhaSTFTypJVbfjTJWOqQwDkY1OzXFBhNldckS+N/KBTuX1MYrqYO1Kl5mRT7z4TPI+6lNNgWBR7hqiu7TEfpEVe693sU+K98CdBrGsgoNv67AHiiPRRkrT5Ws/xjPZy4cDc5/NsR3JprnVPGJJvZQWUx8hy4twojNXYkK7eKmnj2/7lLf6LTFhRgt3NYQCkqJQJbqu5yRnCXo/axiQOMXXCU6fjmuSd6bkKR2ySvltHar+3B/4KpUB48d3Kb04Tbr1/laRasYwNniqy0HjQeLNqTE7JePAhDdaFYVdie3Ej4tvnNekNhVaAQ7Updx2AVsE3G5xhYelo4DNrMjV+0ib2rA+N2rJhCjZtE2JKQ6gAiQ1cPauOjwup14bSegs1LNMKIbzGhL0lHyHLCTk/yBJ63HiNh5ArJ61HdotKnq/12Oh/7JKkminrM/a6vGcc/QK4t/rJPp9XDovzs/uV4kSIPUvcSwkwdfe20q9GSWbewY/CaCvBV1j2P8A6plx8kaYkTi1aqsq42gabmH/BM0DTna1kt4kNnCWpxjRMBfXcpAMTOl/JlQPXzjlshqU4LkYz+iQsYUJmDdhbU1MhJ4DxYrZ/xEUHTdwlAVrEQ08A6PM6TNb5zOO/OFxqYP+LUEDZCLIH1wqmhUS0LT4vH9KNIccjzDABGmN7R7PitSzS4C8vsycKa0Y7f0Qc9ki+Gh4qIXNPpjoz38m4Z0xtH0cQou3VrnhEEbev6oJPSaYxvNbDiu7mW6mA2P4CPCSEXXWQv0klmx3MkwHXSndgzzTYMmpxwxa7XCkVCRM2JePFv+hK+DsFF6TdReodthNbc2ton7uLvvo/noz+xo2NxgY2McO/AO5WioW9b6bP6yPwB3b5QaDe3wl7ria0ArkxE6ELfRSfnT9rtYdNDk6Bwjb+HfFRgJ3RPQ2Gx5TJPXqL9JKMgUf+FDoQ2Doio5HcAn/oLPu7/cYC+srNFP+V82iNDV0eHJJICGfQDyfBUZxRS0fjRYR6vz4lAjg1qAtSsLC1bAGGCQVTvIfvIinWRtYjNOXJ+XTvaRdQTFkJlWzifLZYnOmyKgZBiGgsoJwhUX6jgTqrSG9eAocYu950Qk8gw5IEfQc5tkENbC2W1oNtcU0dgzUeT5yaRnntE/+FAsBqsYCmVveGuqEnjjuZxJVjPuFU9v2SvTrw6gYu4pBqX1x9riV9fhsgNgjjjM4A0v8rem0+lrQ+lFHEPxf43XPEsJRCALg6dMWClxygOj8JPt88mFeDTsWepMv+S6ZK38bNKKI6AOe2UUPclEa6k8wfK11vHv8AIXde7U+F8+N2S2TEzeKz/1xPynGtB/qCJtnw6bfkvgkVs0rHZ45POG6O3A8gpbH/YFdf7YTHBKXtZkTENzXvVo8TLAUJbURkLv3i1oHe5X7YtPjuEmXlEaBJsE9ZxpF/sLaO4/CGM3t22X1146Vq4HcruAkcovkzf6q2uGH+lgixm0kWUxmKm922pGhzfjwr5dEwShof1Bynr8sCS+/WgbrmWTDhEByHNzuEaZyjhkmMxXo58AXCNtOpe6bPCLn3wfqHqStu8Bca+8wl5qHKoLHbpMRP8cIb59sZcu+wIKaEaBwfZTY1RtMgaa327hSzexGV07Au2u18ay4jM6odvBe4SbDCuYdtUgBZZT0nwOZhsFVxTP3+evqTii7Q2cW2C/U6euuG5wSQlD8s1KoixAUCvj8S0MwGZDR5lUJNKaIt77gAKOS9llk1kWH1KAadKaZmIPq9OTcK/9NnkOKw2aItjyeFKgfeMpvLGZRpXOTO36/Qn97BlknW8y7ChGViSTLdSLCuvurpp97c6S6ZVeT99D8wDlcwOW3qo/MtYNhNYaatLeFB6KE9qs3EBTG4+ZekUxN0OQUg8HessDAvUWuPsj2XRZggt52nl3OWuP2XTsQOu6stEak7aHwealn5iQJTDRkMlXSxAFj7/isFywR5nyCuoKaSu1t/fSa3WC4fK+8xMyv1ad3zwnBbT6FNWiDPSSrAGWDoIOEEmzfk9QS9chSDZnYOHFpRKbNUb63cDK9cJLSetiFm6IqI+0KUJf3mXhuFXzdp6QjTK9wxvCWob0KMEmVgjD1O3DyE86CHWLod5zMHgQtCL9XUoWhUlKDTCLU9TADDbkd/wUqJ62MNwh7vGSLtUhQ0dZ+xxZg1JPRL8+N4VyjFyL597KfKoyqVTIH2GUYlcieBdw8piYkYF8t/LfcSXJtnkvx7DefI6wwKCeIp2rtaUCZq1d4wa2RCZVJ152LqDewvLnNu7tPggaJQIQir4ZeQNbtVDHDamuCRnJWvsKO6z6CNLNlGtwta1u3kW45ioyrL1fKogu5h081BZEsbKlzmm8bsNKgHZ2THt4IZOLd4E40BpjoarFmkQfdYWelec4lPzQ3HAywhMgVxALy8uN6fuQOS5zjymSuIvrRsEK6DgX1/5JQAO9kVLL0VWxPD6J2UgADYXuGC0CANkGD4Zr8dIlaXVvGzSsZyK5BLX6g8+cs5sJVnv06uPNFZczQ1IALiThVJrk8mHVMskv8GHXW3TPH0qRgAkGFpSXPdeR6XgMT8InCmbIwggflRQy0kA7nNJvcAFw6cEQk1VVxP0Ni+FeC+JIKGEnqlzw7VT6G2tACQV+M0Z3fUKbeE3D9NQ7jpNZEVfz2bteoOHpgL7n2HfnGAgUPcLcr49JndHl1tplxnOet0QrT7K8pO7TfvRXQtRBpPmgLoSzcrzWPDtqtnS/bFvjkT3ZZzVd5aF2wfwHdJttBjSi/n3Olfhnp6nHVxb/dkaXxmwldHzgSXB6sHu5alW5JLHNOEGmrFVQG1KIY2xLWIdDx/mSGXS5k/IlKkX99GiMlh1ct+HKyj5FyQwBnz/0LN9FqhwnM0+uiuR3Gi0f+zt26wft8KkWMBe60XgW2vY3ynoZRhkw8yihgWKdqJheyQW7vfvXIYFT/JbTaoCmdcE7qva0Nw7sAMmt8V9rRhvzEwP/gAPPs6Xj9rN7a8glz2feq2LMzsAyPXIO2FEjWEAN2L/ZYaaAbXl7nBmbthBe5tFKLs8f4wQL4WjU8ybzzRwE1WpuPPp1gsM4XP3ZfyQybDMmgD+ieIwIrJhyjGYRnFodkyGaZNKFamnCHSLVZjmeU6rull2AyQOsure9kU0pQ4rg7oyvRDRxVIgZiFryBA7tfRd/Wg7/4QJ84RTAVdvBeWzlg5Lii/x1klg6+gSY8pge3YbwvNdyfu02CrF/wIWfCoXBOUNl980sI8DytzmTjN/f6ChNd5waVNsK7eLU1k4tnumJL7mNfuXlcm6ZQuep2dSeCGOECt79sGL3gWnKBuQhV16+IHXTw7QRyilVOuQuTMwW2aj29cXQhZxIqNZj7OwswdXb34h/K+CM2R7uIoy+rqvbAdN3ef/t2oNkjJJMRFtJES+d/nFw/e/c6J2Pr5R2KukXYEg4PSUUd00eA3tZMlcsOXuPPy8w+8G+TZPTqNgpTVJFATHTtZawSERrFHjDnXfuRZcuBF7U0wIfxXUcqM38sYV2KQDWKz/rOPb26dhRaKMLGcRCedGvK3fWwRhxK479dOjvKCPzm5YUphVHMdv5eCTwQQhq/K20BXQJLOfqgzq6jptVhGORhi2/2LZ6x42HmiyREeap3vc9zrZwXv0bimzUj2lEApzsibYmzFKS7WrGLBmW38oHNtgPsb8rbBR6bHeUNfZ56ZP/wn5rKPw95ROdTbbReVPiiUb3UYps/H3d9BA1W+bodbzvkkGTAXG1mwKy/FtZn2LIp4pHqMbCbs2xnYBZRGGIw7ktniE5VXKGTE6xaKvkHHNXMIBFRQ0bKzflZXf7ettwz6T2bXWBGHE4I3KDczvx2SNXqY0e9dMziT2CO3p9TC7WrzgRUHoSjm3drFxAtXweCr1tr2a+jtz70wekZ/AXBabxz6GJRaxNx79+XdwCvT3kkQ7syfKqUqjFXJ0xLvm1K+Y0gY5v0M6TW8JLYrWdfm56xbLIb5BbxdvEaogb+qtJweAi9cszqBPf4J4I/DOSd+x2/xir3Oc/fR2DTAUloRQre9VmmH7lIOuzhPHMqf3XzjmGjscPY5M6lEtsg+IJCXxUMtX3odM3EeQ6DdqJCOh10pWfARi71JV5Qua6V/GGtuvLAx7n8ewUnY9Q00555vM1f8yuCJ9Rgt3Ye6eDQVRqoeg9x49fXxuMNywHsFlhBSjKWshldkrnoDVmqKmSEAxz9Fjs8ObeP8Cb1KUqxFH4XvZmyy7rA3NizofxJrhKNZvBtCGhj4IISFiG3WkOkl6cV+wcMwkWcx16qIkgZ7xitR3r0qrJzw7c1TPGY+v3B5ajDjbAAIUWEe8XNuZGSojFEPWeMujUeFUSdKMD1GsTiHRG3YoWp9nwt+zBe6+QpG/4jgxj49dpJqsMiB+cjLgiH7l1rrFr8ZTBnSPhUv5ffdlByR3qG/GwyiFBXntMVc7FCNovNEtU+8RssMtLkn/X3KTJh2xCfW7Yr9BnuRg3JKC33FFVCmmMkr0teqZDIl1KS9OtTiENGCurArCqVG4vG4vbgSX3fIVpmdfCKNrgJZeUL26xqTbQupNpLPU2J/Q13MT58XMOiSlYpnD+XlOUKbdGGmMWGgMv0lqKD0Qsbf5pZp9SMhkZ7NXMtt0DKeNfPnR2VoDulYYK9yfVyScS6/QdFOJUXh3lrog2ehBAXeXnVlmT5k5cJWFk9peBGchZo27jFVOaKjnIn/03Y2eqo/cZ2q4/TgZETNlfqfwZ6Dus1Og/UwwBSPEGkosEBNTACz0+eF4Ha5KYzMiT/3COZjwayboRcFbGW15i6Fq2yhGZOqeipF0DZkx2xm+LkPBkfm5ON2tztCbEjwEyPHvbhQXGIsGBks+uYuIUAMwWuTFNTjLNfFYWF0Zx/y/IOHJlVml9l5Dn3dBdSI4hV8hDmC5DcRFkQi3/xzHe87FKflLJfEjhmW1OLipQACHoPxpwrwOPzB/jOn6LO7JuiwTqdGbnHl/YhCm6lN0GiSgt+IY5VdbJB3WkGLxYeb2cZTcdN22ElSoMfCF0MH+XC6Ji8V7LApxFCJ9vxu+G2KK2eZaEW0WVt3ddQBRoikV8Ui/J2kFhZE0oCLaCYTXUJbYhyn0mtZO5JFfbK84hhHr+QhOobLG8CHbQQ5nlHOaqF4gF49srwp9IERHacnygpplCRnPOi2Qus1XN6wtx0qD/RT/4Mn/iK66MflAR3ajhf8D/N9UU+qwaXqZS6B1WRJcu5dc3ZcqbydTBuFQJSQAD6cuCkx/+Yj0wPlohu0ZRHpXNCkDihLzd/Gtoyo72xgJpzJx33YuIQW0lTnWIBp+qY+o/VB3kMmJoHDRb56WPt2ai6MqqGlUW76Cin83yYlg9sMI+HMpyi1iYkjt7WpWgdoCIm0LzRbJ+3GDzlLDp/NzqsO38JGhaCHSfeWtF5VPvbDqS6LrJEryAxSDHGtFbR3X2h7yyo4prf/Evvm3t6o2MA70FQEXYObUIh+4uCMdOZFuC8k+OMM5piBOyOAqbzCRctzHmV729YPsyE3CC6ImSFpwQtSybLvhFBuye2suLpfD5GbIsAT2795sY+J4dmVdpysgCzE+zGhvrL1c1DUveFMyqHb+tFxT5JtIcfaa+omF0XIrJ1zpfmg8rou12hQG29ubeIjJUZJQyjFA=="}</script>
+  <script src="/lyd.js" defer></script>
+  <script src="/merker.js" defer></script>
+  <script>
+  addEventListener("DOMContentLoaded", () => {
+    const S = window.slabbe;
+    const $ = (s, r = document) => r.querySelector(s);
+    const skap = $(".kjoleskap"), form = $(".las"), felt = form.passord, svar = $(".svar");
+    const hvelv = JSON.parse($("#hvelv").textContent);
+    const fraB64 = (t) => Uint8Array.from(atob(t), (c) => c.charCodeAt(0));
+    const vask = (t) => t.trim().normalize("NFC").toLowerCase();
+
+    // Passordet sjekkes ved å prøve å dekryptere hallen. Feil passord gir bare søppel.
+    async function pakkUt(passord) {
+      if (!crypto.subtle) throw new Error("ingen kryptering");
+      const nokkel = await crypto.subtle.importKey("raw", new TextEncoder().encode(vask(passord)), "PBKDF2", false, ["deriveKey"]);
+      const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: fraB64(hvelv.s), iterations: 200000, hash: "SHA-256" },
+        nokkel, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+      const ut = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fraB64(hvelv.i) }, key, fraB64(hvelv.d));
+      return new TextDecoder().decode(ut);
+    }
+
+    const FEIL = [
+      "Feil. Kjøleskapet humrer.",
+      "Nei. Kongen ler av deg fra sofaen.",
+      "Feil igjen. Prøv å tenke som en konge.",
+      "Hint: Hvem styrer over all ølen?",
+      "Hint: Det er to ord som er blitt til ett. Det første drikker du.",
+      "Kjøleskapet har begynt å synes synd på deg.",
+    ];
+    let forsok = 0;
+
+    async function aapne(passord, rolig = false) {
+      const html = await pakkUt(passord);
+      try { localStorage.setItem("slabbe-konge", vask(passord)); } catch {}
+      $("#hallen").innerHTML = html;
+      skap.classList.add("apen");
+      form.hidden = true;
+      svar.className = "svar riktig";
+      svar.textContent = "Kjøleskapet går opp. Lenge leve kongen!";
+      if (!rolig) { S.lyd("pssht"); S.regn("øl", 26); }
+      setTimeout(() => {
+        $("#hallen").hidden = false;
+        $(".tilbake").hidden = false;
+        hallen();
+        if (!rolig) $("#hall-tittel").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      }, rolig ? 0 : 1100);
+      S.merke("konge");
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const p = felt.value;
+      try { await aapne(p); }
+      catch {
+        const v = vask(p);
+        svar.className = "svar feil";
+        // Nesten riktig? Prøv om det låser opp med ø i stedet for o/oe, eller med én l.
+        const nesten = async (variant) => { if (variant === v) return false; try { await pakkUt(variant); return true; } catch { return false; } };
+        svar.textContent = await nesten(v.replace(/^oe?/, "ø")) ? "Nesten! Kongen skriver med ø."
+          : await nesten(v.replace(/ll/, "l")) ? "Nesten! Bare én l. Kongen sparer på bokstavene."
+          : v === "passord" ? "Haha. Nei."
+          : FEIL[Math.min(forsok, FEIL.length - 1)];
+        forsok++;
+        skap.classList.remove("riste"); void skap.offsetWidth; skap.classList.add("riste");
+        S.lyd("feil");
+        felt.select();
+      }
+    });
+
+    // Husker kongen fra sist
+    let lagret = null;
+    try { lagret = localStorage.getItem("slabbe-konge"); } catch {}
+    if (lagret) aapne(lagret, true).catch(() => { try { localStorage.removeItem("slabbe-konge"); } catch {} });
+
+    $(".las-igjen").addEventListener("click", () => {
+      try { localStorage.removeItem("slabbe-konge"); } catch {}
+      location.reload();
+    });
+
+    // ---------------- Det som skjer inne i hallen ----------------
+    function hallen() {
+      // Krona på forsiden
+      const valg = $(".krone-valg");
+      valg.checked = S.les("slabbe-krone", true);
+      S.skriv("slabbe-krone", valg.checked);
+      valg.addEventListener("change", () => {
+        S.skriv("slabbe-krone", valg.checked);
+        S.melding(valg.checked ? "Krona er på!" : "Krona er av.", valg.checked ? "Se på forsiden. Han bærer den med verdighet." : "Han merket det ikke. Han sover.");
+      });
+
+      // Kongelig tapping: hold inne, slipp når glasset er fullt
+      const knapp = $(".tapp"), ol = $(".glass .ol"), skum = $(".glass .skum"), sol = $(".glass .sol");
+      const tSvar = $(".tapp-svar"), tTall = $(".tapp-tall");
+      let fyll = 0, tapper = false, sist = 0, antall = S.les("slabbe-halvlitere", 0);
+      tTall.textContent = `Kongelige halvlitere: ${antall}`;
+      const tegn = () => {
+        const topp = 168 - Math.min(fyll, 112) * 1.35; // 0–112 %, over 100 er det søl
+        ol.setAttribute("y", topp.toFixed(1));
+        skum.setAttribute("y", (topp - 12).toFixed(1));
+        skum.setAttribute("height", fyll > 4 ? 14 : 0);
+        sol.classList.toggle("renner", fyll > 100);
+        sol.setAttribute("opacity", fyll > 100 ? 1 : 0);
+      };
+      function steg(t) {
+        if (!tapper) return;
+        fyll += (t - sist) / 1000 * 38; sist = t;
+        tegn();
+        if (fyll >= 112) return slipp();
+        requestAnimationFrame(steg);
+      }
+      function start(e) {
+        e.preventDefault();
+        if (tapper) return;
+        fyll = 0; tapper = true; sist = performance.now();
+        knapp.classList.add("tapper");
+        tSvar.textContent = "Tapper…";
+        requestAnimationFrame(steg);
+      }
+      function slipp() {
+        if (!tapper) return;
+        tapper = false;
+        knapp.classList.remove("tapper");
+        tegn();
+        if (fyll < 60) tSvar.textContent = "Det der er en smaksprøve, ikke en øl.";
+        else if (fyll < 88) tSvar.textContent = "Halvfullt. Kongen er skuffet, men drikker det.";
+        else if (fyll <= 100) {
+          tSvar.textContent = pick(["Perfekt skjenket! Kongen nikker.", "Mesterlig! Skummet sitter som en krone.", "Kongelig! Du får beholde hodet."]);
+          antall++; S.skriv("slabbe-halvlitere", antall);
+          tTall.textContent = `Kongelige halvlitere: ${antall}`;
+          S.lyd("merke");
+        } else tSvar.textContent = "SØL! Kongen tilgir deg. Bordet gjør det ikke.";
+        S.lyd(fyll > 100 ? "feil" : "pssht");
+      }
+      const pick = (l) => l[Math.floor(Math.random() * l.length)];
+      knapp.addEventListener("pointerdown", start);
+      ["pointerup", "pointerleave", "pointercancel"].forEach((t) => knapp.addEventListener(t, slipp));
+      knapp.addEventListener("keydown", (e) => { if ((e.key === " " || e.key === "Enter") && !e.repeat) start(e); });
+      knapp.addEventListener("keyup", (e) => { if (e.key === " " || e.key === "Enter") slipp(); });
+      knapp.addEventListener("contextmenu", (e) => e.preventDefault());
+      tegn();
+    }
+  });
+  </script>
+</body>
+</html>

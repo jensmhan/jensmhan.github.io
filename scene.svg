@@ -52,7 +52,7 @@
     .pl { fill: none; stroke: #1f2328; stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
     #glow { animation: flicker 7s steps(1) infinite; }
     /* Klikkbare ting */
-    #person, .fly-wrap { pointer-events: visiblePainted; cursor: pointer; }
+    #person, .fly-wrap, #beer { pointer-events: visiblePainted; cursor: pointer; }
     .wing { animation: flap .08s linear infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
     @keyframes flap { to { transform: scaleY(.4); } }
     /* Magen dirrer når han raper eller klør seg */

@@ -269,6 +269,42 @@
     }
   }, { passive: true });
 
+  // ---------------- Ølen hans fører til kongens kjøleskap ----------------
+  const OL_REPLIKKER = ["Ikke rør ølen min.", "Seriøst. Det er min øl.", "Den er hellig, vet du.", "Bare kongen får røre den…"];
+  let olKlikk = 0;
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest || !e.target.closest("#beer")) return;
+    olKlikk++;
+    if (olKlikk < 5) { S.melding(OL_REPLIKKER[olKlikk - 1]); S.lyd("pip"); return; }
+    olKlikk = 0;
+    S.lyd("pssht");
+    S.melding("Du har funnet veien til kongen.", "Han venter i kjøleskapet.");
+    setTimeout(() => S.snuTil("/kongen.html", "Til kongen…"), 1100);
+  });
+
+  // Kongen har gitt slabbedasken krone (byttes ut med nisselua i desember)
+  const KRONE = `<g id="krone" transform="rotate(-12 274 214)">
+      <path d="M248 228 L243 199 L260 213 L274 192 L288 212 L305 198 L300 227 Q274 236 248 228 Z" fill="#f5c542" stroke="#1f2328" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M249 222 Q274 229 299 221" fill="none" stroke="#c99a1a" stroke-width="2.5"/>
+      <circle cx="243" cy="197" r="3.5" fill="#fff4c2" stroke="#1f2328" stroke-width="2"/>
+      <circle cx="274" cy="190" r="4" fill="#fff4c2" stroke="#1f2328" stroke-width="2"/>
+      <circle cx="305" cy="196" r="3.5" fill="#fff4c2" stroke="#1f2328" stroke-width="2"/>
+      <circle cx="261" cy="221" r="3" fill="#c0392b" stroke="#1f2328" stroke-width="1.5"/>
+      <circle cx="274" cy="223" r="3.2" fill="#2563eb" stroke="#1f2328" stroke-width="1.5"/>
+      <circle cx="287" cy="221" r="3" fill="#2ecc71" stroke="#1f2328" stroke-width="1.5"/>
+      <path d="M252 206 q3 -3 6 -1" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    </g>`;
+  const erKonge = () => { try { return !!localStorage.getItem("slabbe-konge"); } catch { return false; } };
+  function krone() {
+    if (!erKonge() || !S.les("slabbe-krone", true)) return;
+    const person = document.querySelector("#scene #person"), lue = document.querySelector("#scene #hat");
+    if (!person || !lue || document.querySelector("#krone") || lue.style.display !== "none") return;
+    lue.insertAdjacentHTML("beforebegin", KRONE);
+  }
+  const scene = document.getElementById("scene");
+  if (scene.querySelector("svg")) krone();
+  else new MutationObserver((_, o) => { if (scene.querySelector("svg")) { o.disconnect(); krone(); } }).observe(scene, { childList: true });
+
   // ---------------- Konami: alt faller ut av sofaen ----------------
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let k = 0, faller = false;
